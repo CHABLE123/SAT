@@ -15,6 +15,11 @@ class Usuario(AbstractUser):
         unique=True
     )
 	date_joined = models.DateTimeField('date joined', default=timezone.now, blank=True)
+
+	def save(self, *args, **kwargs):
+		self.username = self.dni
+		super().save(*args, **kwargs)
+
 	#USERNAME_FIELD = "email"
 	#REQUIRED_FIELDS = []
 

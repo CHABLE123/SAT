@@ -1,15 +1,14 @@
-from django import forms
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render
 from folio.forms import Registro_form
 from folio.models import solicitud
 from folio.models import Usuario
 from folio.forms import Solicitud_form
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.conf import settings
 
-def logeo(request):
-    return render(request, 'login.html')
-
+@login_required(login_url=settings.LOGOUT_REDIRECT_URL)
 def home(request):
     return render(request, 'home.html')
 
@@ -36,6 +35,8 @@ def reg_usuario(request):
         form = Registro_form(request.POST)
         if form.is_valid():
             r=form.save(commit=False)
+            r.is_active = True
+            r.set_password(form.cleaned_data['password'])
             r.save()
             print('Registro guardado')
             messages.success(request,'Registro guardado')

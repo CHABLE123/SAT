@@ -16,10 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from folio import views
+from django.contrib.auth.views import LogoutView, LoginView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.logeo, name="logeo"),
+    path('', LoginView.as_view(template_name='login.html'), name="login"),
+    path('logout/', LogoutView.as_view(), name='logout'),
     path('home/', views.home, name="home"),
     path('registro/solicitud/', views.reg_folio, name="reg_folio"),
     path('registro/usuario/', views.reg_usuario, name="reg_usuario"),
