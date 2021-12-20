@@ -1,0 +1,51 @@
+{% extends 'home.html' %}
+
+{% block content %}
+{% load static %}
+<div class="container">
+    <br>
+    <div class="card card-default">
+        <div class="card-header encabezado">
+            <h3 class="card-title">
+                <i class="fas fa-plus"></i>
+                Modificar usuario
+            </h3>
+            
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            <form class="row g-3" method="POST">
+                {% csrf_token %}
+                <div class="col-md-6" autocomplete="off">
+                    {{ form.first_name.label_tag }}
+                    {{ form.first_name }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.last_name.label_tag }}
+                    {{ form.last_name }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.dni.label_tag }}
+                    {{ form.dni }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.rfc.label_tag }}
+                    {{ form.rfc }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.rol.label_tag }}
+                    {{ form.rol }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.password.label_tag }}
+                    {{ form.password }}
+                </div>
+                <div class="col-12">
+                    <br>
+                    <button class="btn btn-primary" type="submit">Modificar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>  
+{% endblock %}
