@@ -15,7 +15,8 @@ class Solicitud_form(forms.ModelForm):
             'dependencia': forms.TextInput(attrs={'class': 'form-control'}),
             'motivo': forms.TextInput(attrs={'class': 'form-control'}),
             'firmado': forms.Select(attrs={'class': 'form-control'}),
-            'archivo': forms.ClearableFileInput(attrs={'class': 'form-control'})
+            'archivo': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'estatus': forms.Select(attrs={'class': 'form-control'})
         }
 
 class Registro_form(forms.ModelForm):
@@ -30,3 +31,7 @@ class Registro_form(forms.ModelForm):
             'rol': forms.Select(attrs={'class': 'form-control'}),
             'password': forms.TextInput(attrs={'class': 'form-control', 'type': 'password'})
         }
+
+class Registro_form2(Registro_form):
+    class Meta(Registro_form.Meta):
+        exclude = ['password']

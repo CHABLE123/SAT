@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from folio.forms import Registro_form2
 from folio.forms import Registro_form
 from folio.models import solicitud
 from folio.models import Usuario
@@ -12,6 +13,7 @@ from django.conf import settings
 def home(request):
     return render(request, 'home.html')
 
+@login_required(login_url=settings.LOGOUT_REDIRECT_URL)
 def reg_folio(request):
     if request.method=='POST':
         form = Solicitud_form(request.POST)
@@ -30,6 +32,7 @@ def reg_folio(request):
         'form': form  
     })
 
+@login_required(login_url=settings.LOGOUT_REDIRECT_URL)
 def reg_usuario(request):
     if request.method=='POST':
         form = Registro_form(request.POST)
@@ -39,7 +42,7 @@ def reg_usuario(request):
             r.set_password(form.cleaned_data['password'])
             r.save()
             print('Registro guardado')
-            messages.success(request,'Registro guardado')
+            messages.success(request,'El usuario ha sido registrado')
             return redirect('reg_usuario')
         else:
             print(form.errors)
@@ -50,25 +53,28 @@ def reg_usuario(request):
         'form': form
     })
 
+@login_required(login_url=settings.LOGOUT_REDIRECT_URL)
 def cons_usuario(request):
     data = {
         'usuarios': Usuario.objects.all()
     }
     return render(request, 'consulta_usuario.html', data)
 
+@login_required(login_url=settings.LOGOUT_REDIRECT_URL)
 def cons_folio(request):
     data = {
         'solicitudes': solicitud.objects.all()
     }
     return render(request, 'consulta_solicitud.html', data)
- 
+
+@login_required(login_url=settings.LOGOUT_REDIRECT_URL) 
 def mod_usuario(request, id):
     usuario = get_object_or_404(Usuario, id=id)
     data = {
-        'form': Registro_form(instance=usuario)
+        'form': Registro_form2(instance=usuario)
     }
     if request.method == 'POST':
-        form = Registro_form(request.POST, instance=usuario)
+        form = Registro_form2(request.POST, instance=usuario)
         if form.is_valid():
             r=form.save(commit=False)
             r.save()
@@ -80,7 +86,27 @@ def mod_usuario(request, id):
             print('Registro no guardado')
     return render(request, 'modificar_usuario.html', data)
 
+@login_required(login_url=settings.LOGOUT_REDIRECT_URL)
 def eli_usuario(request, id):
     usuario = get_object_or_404(Usuario, id=id)
     usuario.delete()
+    messages.success(request,'Se elimino el registro correctamente')
     return redirect('cons_usuario')
+
+@login_required(login_url=settings.LOGOUT_REDIRECT_URL) 
+def mod_folio(request, id):
+    solicitudes = get_object_or_404(solicitud, id=id)
+    data2 = {
+        'form': Solicitud_form(instance=solicitudes)
+    }
+    if request.method=='POST':
+        form = Solicitud_form(request.POST, instance=solicitudes)
+        if form.is_valid():
+            f=form.save(commit=False)
+            f.save()
+            print('Registro guardado')
+            messages.success(request,'El Registro ha sido modificado')
+            return redirect('cons_folio')
+        else:
+            print('Registro no guardado')
+    return render(request, 'modificar_folio.html', data2)

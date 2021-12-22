@@ -29,4 +29,6 @@ urlpatterns = [
     path('consulta/solicitud', views.cons_folio, name='cons_folio'),
     path('modificar/usuario/<id>/', views.mod_usuario, name='mod_usuario'),
     path('eliminar/usuario/<id>/', views.eli_usuario, name='eli_usuario'),
+    path('modificar/folio/<id>/', views.mod_folio, name='mod_folio'),
+    
 ]

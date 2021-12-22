@@ -28,7 +28,7 @@
 <div class="content-wrapper">
  
   {% block content %}
-
+    <h1>Bienvenido, {{user.get_full_name}}</h1>
   {% endblock %}
   
 </div>
@@ -40,7 +40,6 @@
 <script src="{% static 'lib/adminlte-3.0.4/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 <script src="{% static 'lib/adminlte-3.0.4/js/adminlte.min.js' %}"></script>
 <script src="{% static 'lib/datatables-1.10.20/js/jquery.dataTables.js' %}"></script>
-<!--<script src="{% static 'lib/datatables-1.10.20/js/dataTables.bootstrap4.min.js' %}"></script>-->
 <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/dataTables.responsive.min.js' %}"></script>
 <script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/responsive.bootstrap4.min.js' %}"></script>
 <script src="{% static 'lib/datatables-1.10.20/plugins/buttons-1.6.1/js/dataTables.buttons.min.js' %}"></script>
@@ -55,15 +54,14 @@
   {% for m in messages %}
     <script>
       Swal.fire({
-        "title": "Registro guardado",
-        text: "{{m}}",
+        "title": "{{m}}",
+        text: "",
         icon: "success",
         confirmButtonText: "Ok"
       })
     </script>
   {% endfor %}
 {% endif %}
-
 
 <script type="application/javascript">
   $('#data').DataTable({

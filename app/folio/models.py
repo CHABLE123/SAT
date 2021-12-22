@@ -20,6 +20,7 @@ class Usuario(AbstractUser):
 		self.username = self.dni
 		super().save(*args, **kwargs)
 
+
 	#USERNAME_FIELD = "email"
 	#REQUIRED_FIELDS = []
 
@@ -42,5 +43,5 @@ class solicitud(models.Model):
 	motivo = models.CharField('Motivo', max_length=150)
 	archivo = models.FileField(upload_to='archivo/%Y/%m/%d', null=True, blank=True)
 	firmado = models.CharField('firmado', max_length=150, choices=[('autografo','Autografo'),('sifen','Sifen')])
-	estatus = models.CharField('estatus', max_length=150, default='pendiente', choices=[('pendiente','Pendiente'),('comprobado','Comprobado'),('cancelado','Cancelado')], editable=False)
+	estatus = models.CharField('estatus', max_length=150, blank=True, default='pendiente', choices=[('pendiente','Pendiente'),('despachado','Despachado'),('cancelado','Cancelado')])
 	

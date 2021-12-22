@@ -40,8 +40,7 @@
                         <td>{{ s.fecha_reg }}</td>
                         <td>{{ s.estatus }}</td>
                         <td>
-                            <button type="button" class="btn btn-primary btn-xs"><i class="fas fa-edit"></i></button>
-                            <button type="button" class="btn btn-danger btn-xs"><i class="fas fa-trash-alt"></i></button>
+                            <a href="{% url 'mod_folio' s.id %}" class="btn btn-primary btn"><i class="fas fa-edit"></i></a>
                         </td>
                     </tr>
                 {% endfor %}
