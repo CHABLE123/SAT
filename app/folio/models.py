@@ -4,6 +4,15 @@ from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 
 class Usuario(AbstractUser):
+	class Meta:
+		default_permissions = []
+		permissions = [
+			('create_users', 'Crear usuarios'),
+            ('view_users', 'Ver usuarios'),
+			('edit_users', 'Editar usuarios'),
+			('delete_users', 'Eliminar usuarios'),
+			('list_users', 'Listar usuarios')
+        ]
 	dni = models.CharField('Numero de empleado', max_length=10, unique=True)
 	rfc = models.CharField('RFC corto', max_length=10, unique=True)
 	rol = models.CharField('rol', max_length=150, choices=[('operativo','Operativo'),('administrador','Administrador')])
@@ -34,6 +43,15 @@ class usuario(models.Model):
 	rol = models.CharField('rol', max_length=150, choices=[('operativo','Operativo'),('administrador','Administrador')])
 """
 class solicitud(models.Model):
+	class Meta:
+		default_permissions = []
+		permissions = [
+			('create_requests', 'Crear solicitudes'),
+            ('view_requests', 'Ver solicitudes'),
+			('edit_requests', 'Editar solicitudes'),
+			('delete_requests', 'Eliminar solicitudes'),
+			('list_requests', 'Listar solicitudes')
+        ]
 	uuid = models.UUIDField(default=uuid.uuid4, editable=False)
 	folio = models.CharField('Folio', max_length=15, editable=False, default='No definido')
 	fecha_reg = models.DateTimeField(auto_now=True, null=True)

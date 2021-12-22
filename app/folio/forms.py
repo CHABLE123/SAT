@@ -34,4 +34,4 @@ class Registro_form(forms.ModelForm):
 
 class Registro_form2(Registro_form):
     class Meta(Registro_form.Meta):
-        exclude = ['password']
+        exclude = ['password', 'is_active']

@@ -6,7 +6,7 @@ from folio.models import Usuario
 from folio.forms import Solicitud_form
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.conf import settings
 
 @login_required(login_url=settings.LOGOUT_REDIRECT_URL)
@@ -33,6 +33,7 @@ def reg_folio(request):
     })
 
 @login_required(login_url=settings.LOGOUT_REDIRECT_URL)
+@permission_required(['folio.create_users'], raise_exception = True)
 def reg_usuario(request):
     if request.method=='POST':
         form = Registro_form(request.POST)
@@ -54,6 +55,7 @@ def reg_usuario(request):
     })
 
 @login_required(login_url=settings.LOGOUT_REDIRECT_URL)
+@permission_required(['folio.list_users'], raise_exception = True)
 def cons_usuario(request):
     data = {
         'usuarios': Usuario.objects.all()
@@ -76,8 +78,7 @@ def mod_usuario(request, id):
     if request.method == 'POST':
         form = Registro_form2(request.POST, instance=usuario)
         if form.is_valid():
-            r=form.save(commit=False)
-            r.save()
+            form.save()
             print('Registro guardado')
             messages.success(request,'El Registro ha sido modificado')
             return redirect('cons_usuario')
