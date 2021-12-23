@@ -34,10 +34,8 @@
                         <td>{{ u.rfc }}</td>
                         <td>{{ u.rol }}</td>
                         <td>
-                            
                             <a href="{% url 'mod_usuario' u.id %}" class="btn btn-primary btn-xs"><i class="fas fa-edit"></i></a>
-                            <a href="{% url 'eli_usuario' u.id %}" class="btn btn-danger btn-xs"><i class="fas fa-trash-alt"></i></a>
-                            
+                            <a href="#" onclick="eliminarUsuario({{ u.id }})" class="btn btn-danger btn-xs"><i class="fas fa-trash-alt"></i></a>
                         </td>
                     </tr>
                 {% endfor %}
@@ -49,4 +47,21 @@
         </div>
     </div>
 </div>
+<script>
+    function eliminarUsuario(id){
+        Swal.fire({
+            "title":"¿Esta seguro de eliminar al usuario?",
+            "text":"Esta acción no se puede deshacer",
+            "icon":"question",
+            "showCancelButton":true,
+            "cancelButtonText":"Cancelar",
+            "confirmButtonText":"Eliminar"
+        })
+        .then(function(result){
+            if(result.isConfirmed){
+                window.location.href = "/eliminar/usuario/"+id+"/"
+            }
+        })
+    }
+</script>
 {% endblock %}

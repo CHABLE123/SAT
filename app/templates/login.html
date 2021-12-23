@@ -1,7 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,12 +12,11 @@
     <link rel="stylesheet" href="{% static 'js/jquery-3.5.1.js' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-
 <body>
     <section class="ftco-section">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-md-7 col-lg-5">
+                <div class="col-lg-6 col-lg-6">
                     <div class="wrap">
                         <div class="login-wrap p-4 p-md-5">
                             <div class="d-flex">
@@ -48,7 +46,7 @@
                             <script>
                                 Swal.fire({
                                     "title": "Credenciales Inválidas",
-                                    text: "",
+                                    text: "Favor de verificar el usuario o contraseña",
                                     icon: "warning",
                                     confirmButtonText: "Ok"
                                 })
