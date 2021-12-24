@@ -29,7 +29,7 @@ class Registro_form(forms.ModelForm):
             'dni': forms.TextInput(attrs={'class': 'form-control'}),
             'rfc': forms.TextInput(attrs={'class': 'form-control'}),
             'rol': forms.Select(attrs={'class': 'form-control'}),
-            'password': forms.TextInput(attrs={'class': 'form-control', 'type': 'password'})
+            'password': forms.TextInput(attrs={'class': 'form-control', 'type': 'password',})
         }
 
 class Registro_form2(Registro_form):

@@ -17,12 +17,12 @@
             <table class="table table-striped table-bordered" id="data">
                 <thead>
                     <tr>
-                        <th scope="col">Numero de folio</th>
+                        <th scope="col">Número de folio</th>
+                        <th scope="col">Nombre del solicitante</th>
                         <th scope="col">Dirigido a</th>
                         <th scope="col">Dependencia</th>
                         <th scope="col">Motivo</th>
                         <th scope="col">Firmado</th>
-                        <th scope="col">Archivo</th>
                         <th scope="col">Fecha de la solicitud</th>
                         <th scope="col">Estatus</th>
                         <th scope="col">Opciones</th>
@@ -31,15 +31,16 @@
                 <tbody>
                 {% for s in solicitudes %}
                     <tr>
+                        
                         <td>{{ s.folio }}</td>
+                        <td></td>
                         <td>{{ s.nombre }}</td>
                         <td>{{ s.dependencia }}</td>
                         <td>{{ s.motivo }}</td>
-                        <td>{{ s.firmado }}</td>
-                        <td>{{ s.archivo }}</td>
+                        <td>{{ s.get_firmado_display }}</td>
                         <td>{{ s.fecha_reg }}</td>
-                        <td>{{ s.estatus }}</td>
-                        <td>
+                        <td>{{ s.get_estatus_display }}</td>
+                        <td class="text-center">
                             <a href="{% url 'mod_folio' s.id %}" class="btn btn-primary btn"><i class="fas fa-edit"></i></a>
                         </td>
                     </tr>

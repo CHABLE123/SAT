@@ -14,6 +14,13 @@
   <link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/css/jquery.dataTables.min.css' %}"/>
   <link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/plugins/buttons-1.6.1/css/buttons.dataTables.min.css' %}"/>
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <style>
+    #columna{
+        background: #f5f5f5;
+        border-radius: 30px;
+        box-shadow: 12px 12px 22px gray;
+    }
+  </style>
   
   {% block head %}
 
@@ -26,11 +33,21 @@
 {% include 'header.html' %}
 
 <div class="content-wrapper">
- 
   {% block content %}
-    <h1>Bienvenido, {{user.get_full_name}}</h1>
+  <br>
+  <section class="Form">
+    <div class="container">
+      <div class="row" id="columna">
+        <div class="col-lg-12 px-5 pt-4">     
+          <h3>Bienvenido, {{user.get_full_name}}</h3>
+          <h5>Número de empleado: {{user.dni}}</h5>
+          <h5>RFC corto: {{user.rfc}}</h5>
+          <h5>Rol: {{user.get_rol_display}}</h5>
+        </div>
+      </div>
+    </div>
+  </section>
   {% endblock %}
-  
 </div>
 
 {% include 'footer.html' %}
