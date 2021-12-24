@@ -8,6 +8,7 @@ from django.shortcuts import redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.conf import settings
+from utils.folio_generator import GetFolio
 
 @login_required(login_url=settings.LOGOUT_REDIRECT_URL)
 def home(request):
@@ -18,8 +19,9 @@ def reg_folio(request):
     if request.method=='POST':
         form = Solicitud_form(request.POST)
         if form.is_valid():
+            folio = GetFolio(solicitud)
             f=form.save(commit=False)
-            f.folio=str(solicitud.objects.all().count()+1)
+            f.folio = folio.generate()
             f.save()
             print('Registro guardado')
             messages.success(request,'Tu numero de folio es '+f.folio)

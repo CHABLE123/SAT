@@ -27,6 +27,12 @@
                 <div class="col-md-6">
                     {{ form.dni.label_tag }}
                     {{ form.dni }}
+                    {% if form.dni.errors %}
+                    <span>{{form.dni.errors}}</span>
+                    {% endif %}
+                    {% if form.username.errors %}
+                    <span>{{form.username.errors}}</span>
+                    {% endif %}
                 </div>
                 <div class="col-md-6">
                     {{ form.rfc.label_tag }}
@@ -48,4 +54,12 @@
         </div>
     </div>
 </div>
+<script>
+    (() => {
+        const rfc_input = document.querySelector('#id_rfc')
+        rfc_input.addEventListener('keyup', function () {
+            this.value = this.value.toUpperCase()
+        })
+    })()
+</script>
 {% endblock %}

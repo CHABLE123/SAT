@@ -1,10 +1,7 @@
 from django import forms
-from django.db import models
-from django.db.models import fields
-from django.forms import widgets
 from folio.models import Usuario
 from folio.models import solicitud
-from django.contrib.auth.models import User
+from django.contrib.auth.forms import AuthenticationForm, UsernameField
 
 class Solicitud_form(forms.ModelForm):
     class Meta:
@@ -31,7 +28,23 @@ class Registro_form(forms.ModelForm):
             'rol': forms.Select(attrs={'class': 'form-control'}),
             'password': forms.TextInput(attrs={'class': 'form-control', 'type': 'password',})
         }
+        error_messages = {
+            'username': {
+                'unique': 'Ese DNI ya ha sido registrado',
+            },
+            'dni': {
+                'unique': 'Ese DNI ya ha sido registrado',
+            }
+        }
 
 class Registro_form2(Registro_form):
     class Meta(Registro_form.Meta):
         exclude = ['password', 'is_active']
+
+class LoginForm(AuthenticationForm):
+    username = UsernameField(widget=forms.TextInput(attrs={'autofocus': True, 'class': 'form-control', 'placeholder': 'Número de trabajador (DNI)'}))
+    password = forms.CharField(
+        label= "Contraseña",
+        strip=False,
+        widget=forms.PasswordInput(attrs={'autocomplete': 'current-password', 'class': 'form-control', 'placeholder': 'Contraseña'}),
+    )
