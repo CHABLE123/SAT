@@ -61,4 +61,4 @@ class solicitud(models.Model):
 	motivo = models.CharField('Motivo', max_length=150)
 	firmado = models.CharField('firmado', max_length=150, choices=[('autógrafo','Autógrafo'),('sifen','Sifen')])
 	estatus = models.CharField('estatus', max_length=150, blank=True, default='pendiente', choices=[('pendiente','Pendiente'),('despachado','Despachado'),('cancelado','Cancelado')])
-	
+	usuario = models.ForeignKey(Usuario, on_delete=models.PROTECT, null=True, editable=False, related_name='solicitudes')

@@ -22,6 +22,7 @@ def reg_folio(request):
             folio = GetFolio(solicitud)
             f=form.save(commit=False)
             f.folio = folio.generate()
+            f.usuario = request.user
             f.save()
             print('Registro guardado')
             messages.success(request,'Tu numero de folio es '+f.folio)
@@ -60,14 +61,19 @@ def reg_usuario(request):
 @permission_required(['folio.list_users'], raise_exception = True)
 def cons_usuario(request):
     data = {
-        'usuarios': Usuario.objects.all()
+        'usuarios': Usuario.objects.exclude(dni = request.user.dni)
     }
     return render(request, 'consulta_usuario.html', data)
 
 @login_required(login_url=settings.LOGOUT_REDIRECT_URL)
 def cons_folio(request):
+    solis = []
+    if request.user.is_superuser:
+        solis = solicitud.objects.all()
+    else:
+        solis = request.user.solicitudes.all()
     data = {
-        'solicitudes': solicitud.objects.all()
+        'solicitudes': solis
     }
     return render(request, 'consulta_solicitud.html', data)
 

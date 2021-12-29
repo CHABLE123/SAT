@@ -29,11 +29,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                {% for s in solicitudes %}
+                    {% for s in solicitudes %}
                     <tr>
-                        
+
                         <td>{{ s.folio }}</td>
-                        <td></td>
+                        <td>{{s.usuario.get_full_name|default:'No especificado'}}</td>
                         <td>{{ s.nombre }}</td>
                         <td>{{ s.dependencia }}</td>
                         <td>{{ s.motivo }}</td>
@@ -41,10 +41,15 @@
                         <td>{{ s.fecha_reg }}</td>
                         <td>{{ s.get_estatus_display }}</td>
                         <td class="text-center">
-                            <a href="{% url 'mod_folio' s.id %}" class="btn btn-primary btn"><i class="fas fa-edit"></i></a>
+                            {% if s.estatus == 'cancelado' or s.estatus == 'despachado' %}
+                            :(
+                            {% else %}
+                            <a href="{% url 'mod_folio' s.id %}" class="btn btn-primary btn"><i
+                                    class="fas fa-edit"></i></a>
+                            {% endif %}
                         </td>
                     </tr>
-                {% endfor %}
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
