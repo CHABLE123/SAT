@@ -13,7 +13,7 @@ class Usuario(AbstractUser):
 			('delete_users', 'Eliminar usuarios'),
 			('list_users', 'Listar usuarios')
         ]
-	dni = models.CharField('Numero de empleado', max_length=10, unique=True)
+	dni = models.CharField('Número de empleado', max_length=10, unique=True)
 	rfc = models.CharField('RFC corto', max_length=10, unique=True)
 	rol = models.CharField('rol', max_length=150, choices=[('operativo','Operativo'),('administrador','Administrador')])
 	username = models.CharField(
@@ -59,7 +59,6 @@ class solicitud(models.Model):
 	nombre = models.CharField('Dirigido a', max_length=150)
 	dependencia = models.CharField('Dependencia', max_length=150)
 	motivo = models.CharField('Motivo', max_length=150)
-	archivo = models.FileField(upload_to='archivo/%Y/%m/%d', null=True, blank=True)
-	firmado = models.CharField('firmado', max_length=150, choices=[('autografo','Autografo'),('sifen','Sifen')])
+	firmado = models.CharField('firmado', max_length=150, choices=[('autógrafo','Autógrafo'),('sifen','Sifen')])
 	estatus = models.CharField('estatus', max_length=150, blank=True, default='pendiente', choices=[('pendiente','Pendiente'),('despachado','Despachado'),('cancelado','Cancelado')])
 	

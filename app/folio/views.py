@@ -113,3 +113,6 @@ def mod_folio(request, id):
         else:
             print('Registro no guardado')
     return render(request, 'modificar_folio.html', data2)
+
+def Cpassword(request):
+    return render(request, 'password.html')

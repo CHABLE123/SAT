@@ -9,6 +9,7 @@
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'lib/adminlte-3.0.4/plugins/fontawesome-free/css/all.min.css' %}">
     <link rel="stylesheet" href="{% static 'js/jquery-3.5.1.js' %}">
+    <link rel="icon" href="{% static 'img/favicon.png' %}">
     <title>SAT | Folio</title>
     <style>
         * {
@@ -60,12 +61,13 @@
                 <div class="col-lg-6">
                     <img src="{% static 'img/hacienda.jpg' %}" class="img-fluid" alt="">
                 </div>
+                {% block content %}
                 <div class="col-lg-6 px-5 pt-5">
                     <form method="post">
                         {% csrf_token %}
                         <div class="form-row text-center">
                             <i class="fas fa-user fa-4x"></i>
-                            <h1 class="font-weight-bold py-3">Inicio de sesión</h1>
+                            <h1 class="font-weight-bold py-3">Acceso</h1>
                             <br>
                         </div>
                         <div class="input-group mb-3">
@@ -79,8 +81,9 @@
                         <div class="form-row">
                             <button type="submit" class="btn1 mt-3 mb-5 w-100">Ingresar</button>
                         </div>
-                        <!--<a href="#">Forgot password</a>
-                        <p>no tienes cuenta <a href="#">registrate</a></p>-->
+                        <div class="form-row text-center">
+                            <a href="{% url 'Cpassword' %}">Cambiar contraseña</a>
+                        </div>
                     </form>
                     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
                     {% if form.errors %}
@@ -94,6 +97,7 @@
                     </script>
                     {% endif %}
                 </div>
+                {% endblock %}
             </div>
         </div>
     </section>

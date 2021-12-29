@@ -42,7 +42,7 @@ class Registro_form2(Registro_form):
         exclude = ['password', 'is_active']
 
 class LoginForm(AuthenticationForm):
-    username = UsernameField(widget=forms.TextInput(attrs={'autofocus': True, 'class': 'form-control', 'placeholder': 'Número de trabajador (DNI)'}))
+    username = UsernameField(widget=forms.TextInput(attrs={'autofocus': True, 'class': 'form-control', 'placeholder': 'Número de empleado'}))
     password = forms.CharField(
         label= "Contraseña",
         strip=False,
