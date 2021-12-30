@@ -121,4 +121,4 @@ def mod_folio(request, id):
     return render(request, 'modificar_folio.html', data2)
 
 def Cpassword(request):
-    return render(request, 'password.html')
+    return render(request, 'cambiar_contraseña.html')

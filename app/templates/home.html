@@ -15,13 +15,6 @@
   <link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/plugins/buttons-1.6.1/css/buttons.dataTables.min.css' %}"/>
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
   <link rel="icon" href="{% static 'img/favicon.png' %}">
-  <style>
-    #columna{
-        background: #f5f5f5;
-        border-radius: 30px;
-        box-shadow: 12px 12px 22px gray;
-    }
-  </style>
   
   {% block head %}
 
@@ -35,19 +28,53 @@
 
 <div class="content-wrapper">
   {% block content %}
-  <br>
-  <section class="Form">
+    <h3>Bienvenido, {{user.get_full_name}}</h3>
+    <h5>Número de empleado: {{user.dni}}</h5>
+    <h5>RFC corto: {{user.rfc}}</h5>
+    <h5>Rol: {{user.get_rol_display}}</h5>
     <div class="container">
-      <div class="row" id="columna">
-        <div class="col-lg-12 px-5 pt-4">     
-          <h3>Bienvenido, {{user.get_full_name}}</h3>
-          <h5>Número de empleado: {{user.dni}}</h5>
-          <h5>RFC corto: {{user.rfc}}</h5>
-          <h5>Rol: {{user.get_rol_display}}</h5>
+      <div class="row row-cols-1 row-cols-md-3 g-4 text-center">
+        <div class="col">
+          <div class="card h-100">
+            <br>
+            <i class="fas fa-key fa-4x"></i>
+            <div class="card-body">
+            <br>
+            <h3 class="card-text">Cambiar contraseña</h3>
+            </div>
+            <div class="card-footer">
+              <a href="{% url 'Cpassword' %}" class="btn btn-primary btn">Cambiar</a>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card h-100">
+            <br>
+            <i class="far fa-times-circle fa-4x"></i>
+            <div class="card-body">
+            <br>
+            <h3 class="card-text">Cancelar Folio</h3>
+            </div>
+            <div class="card-footer">
+              <small class="text-muted">Last updated 3 mins ago</small>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card h-100">
+            <br>
+            <i class="far fa-list-alt fa-4x"></i>
+            <div class="card-body">
+            <br>
+            <h3 class="card-text">Peticiones de cancelaciones</h3>
+            </div>
+            <div class="card-footer">
+              <small class="text-muted">Last updated 3 mins ago</small>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </section>
   {% endblock %}
 </div>
 

@@ -42,7 +42,7 @@
                         <td>{{ s.get_estatus_display }}</td>
                         <td class="text-center">
                             {% if s.estatus == 'cancelado' or s.estatus == 'despachado' %}
-                            :(
+                            <i class="fas fa-ban fa-3x" style="color: red;"></i></a>
                             {% else %}
                             <a href="{% url 'mod_folio' s.id %}" class="btn btn-primary btn"><i
                                     class="fas fa-edit"></i></a>
