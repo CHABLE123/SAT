@@ -1,14 +1,34 @@
 from django.shortcuts import render
-from folio.forms import Registro_form2
-from folio.forms import Registro_form
-from folio.models import solicitud
-from folio.models import Usuario
-from folio.forms import Solicitud_form
+from folio.forms import Registro_form2, Registro_form, Solicitud_form, fResetPassword
+from folio.models import solicitud, Usuario
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.conf import settings
 from utils.folio_generator import GetFolio
+from django.contrib.auth import update_session_auth_hash
+
+@login_required(login_url=settings.LOGOUT_REDIRECT_URL)
+def Cpassword(request):
+    if request.method == 'POST':
+        fpassword = fResetPassword(request.POST, label_suffix = '')
+        if fpassword.is_valid():
+            current_pass = fpassword.cleaned_data['current_password']
+            if request.user.check_password(current_pass):
+                new_pass = fpassword.cleaned_data['new_password']
+                request.user.set_password(new_pass)
+                request.user.save(update_fields=['password'])
+                update_session_auth_hash(request, request.user)
+                messages.success(request, 'La contraseña ha sido cambiada exitosamente')
+                return redirect('login')
+            else:
+                messages.warning(request, 'No se guardó ningún cambio. Intente de nuevo')
+        else:
+            messages.warning(request, 'No se guardó ningún cambio. Intente de nuevo')
+    else:
+        fpassword = fResetPassword(label_suffix = '')
+    context = {'fpassword': fpassword}
+    return render(request, 'cambiar_contraseña.html', context)
 
 @login_required(login_url=settings.LOGOUT_REDIRECT_URL)
 def home(request):
@@ -119,9 +139,6 @@ def mod_folio(request, id):
         else:
             print('Registro no guardado')
     return render(request, 'modificar_folio.html', data2)
-
-def Cpassword(request):
-    return render(request, 'cambiar_contraseña.html')
 
 def cancelar_f(request):
     return render(request, 'cancelar_folio.html')

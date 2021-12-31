@@ -48,3 +48,14 @@ class LoginForm(AuthenticationForm):
         strip=False,
         widget=forms.PasswordInput(attrs={'autocomplete': 'current-password', 'class': 'form-control', 'placeholder': 'Contraseña'}),
     )
+
+class fResetPassword(forms.Form):
+    current_password = forms.CharField(label = 'Contraseña actual', max_length = 128, widget = forms.PasswordInput(attrs={'class': 'form-control'}))
+    new_password = forms.CharField(label = 'Nueva contraseña', max_length = 128, widget = forms.PasswordInput(attrs={'class': 'form-control'}))
+    repeat_password = forms.CharField(label = 'Confirmar nueva contraseña', max_length = 128, widget = forms.PasswordInput(attrs={'class': 'form-control'}))
+
+    def clean_repeat_password(self):
+        repeat_password = self.cleaned_data['repeat_password']
+        if not repeat_password == self.cleaned_data['new_password']:
+            raise forms.ValidationError('La contraseña no coincide', code='invalid')
+        return repeat_password

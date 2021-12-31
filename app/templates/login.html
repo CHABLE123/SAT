@@ -97,6 +97,18 @@
         </div>
     </section>
     <script src="{% static 'lib/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    {% if messages %}
+    {% for m in messages %}
+    <script>
+        Swal.fire({
+            "title": "{{m}}",
+            text: "",
+            icon: "success",
+            confirmButtonText: "Ok"
+        })
+    </script>
+    {% endfor %}
+    {% endif %}
 </body>
 
 </html>

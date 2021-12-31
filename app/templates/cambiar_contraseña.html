@@ -14,11 +14,21 @@
         </div>
         <div class="card-body">
             <form class="row g-3" method="POST">
+                {% csrf_token %}
                 <div class="col-md-6">
-                    
+                    {{fpassword.current_password.label_tag}}
+                    {{fpassword.current_password}}
+                    <span class="helper-text red-text">{{fpassword.current_password.errors}}</span>
                 </div>
                 <div class="col-md-6">
-                    
+                    {{fpassword.new_password.label_tag}}
+                    {{fpassword.new_password}}
+                    <span class="helper-text red-text">{{fpassword.new_password.errors}}</span>
+                </div>
+                <div class="col-md-6">
+                    {{fpassword.repeat_password.label_tag}}
+                    {{fpassword.repeat_password}}
+                    <span class="helper-text red-text">{{fpassword.repeat_password.errors}}</span>
                 </div>
                 <div class="col-12">
                     <br>
