@@ -122,3 +122,9 @@ def mod_folio(request, id):
 
 def Cpassword(request):
     return render(request, 'cambiar_contraseña.html')
+
+def cancelar_f(request):
+    return render(request, 'cancelar_folio.html')
+
+def peticion(request):
+    return render(request, 'peticiones.html')
