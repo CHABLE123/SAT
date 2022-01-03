@@ -2,6 +2,7 @@ from django import forms
 from folio.models import Usuario
 from folio.models import solicitud
 from django.contrib.auth.forms import AuthenticationForm, UsernameField
+from django.contrib.auth.models import Group
 
 class Solicitud_form(forms.ModelForm):
     class Meta:
@@ -25,7 +26,7 @@ class Registro_form(forms.ModelForm):
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
             'dni': forms.TextInput(attrs={'class': 'form-control'}),
             'rfc': forms.TextInput(attrs={'class': 'form-control'}),
-            'rol': forms.Select(attrs={'class': 'form-control'}),
+            'groups': forms.SelectMultiple(attrs={'class': 'form-control'}),
             'password': forms.TextInput(attrs={'class': 'form-control', 'type': 'password',})
         }
         error_messages = {
@@ -59,3 +60,15 @@ class fResetPassword(forms.Form):
         if not repeat_password == self.cleaned_data['new_password']:
             raise forms.ValidationError('La contraseña no coincide', code='invalid')
         return repeat_password
+
+class Creargrupo(forms.ModelForm):
+    class Meta:
+        model = Group
+        fields = "__all__"
+        """
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'permissions': forms.Select(attrs={'class': 'form-control', 'multiple': 'multiple'}),
+        }
+        """
+        

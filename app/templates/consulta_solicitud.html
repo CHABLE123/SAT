@@ -25,7 +25,9 @@
                         <th scope="col">Firmado</th>
                         <th scope="col">Fecha de la solicitud</th>
                         <th scope="col">Estatus</th>
+                        {% if perms.folio.option %}
                         <th scope="col">Opciones</th>
+                        {% endif %}
                     </tr>
                 </thead>
                 <tbody>
@@ -40,6 +42,7 @@
                         <td>{{ s.get_firmado_display }}</td>
                         <td>{{ s.fecha_reg }}</td>
                         <td>{{ s.get_estatus_display }}</td>
+                        {% if perms.folio.option %}
                         <td class="text-center">
                             {% if s.estatus == 'cancelado' or s.estatus == 'despachado' %}
                             <i class="fas fa-ban fa-3x" style="color: red;"></i></a>
@@ -48,6 +51,7 @@
                                     class="fas fa-edit"></i></a>
                             {% endif %}
                         </td>
+                        {% endif %}
                     </tr>
                     {% endfor %}
                 </tbody>

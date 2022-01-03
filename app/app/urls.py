@@ -33,7 +33,6 @@ urlpatterns = [
     path('eliminar/usuario/<id>/', views.eli_usuario, name='eli_usuario'),
     path('modificar/folio/<id>/', views.mod_folio, name='mod_folio'),
     path('cambiar/contraseña/', views.Cpassword, name='Cpassword'),
-    path('cancelar/folio/', views.cancelar_f, name='cancelar_f'),
-    path('peticiones/', views.peticion, name='peticion'),
+    path('grupo/', views.grupo, name='grupo'),
     
 ]

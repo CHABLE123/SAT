@@ -27,49 +27,37 @@
 {% include 'header.html' %}
 
 <div class="content-wrapper">
+  <br>
   {% block content %}
-    <h3>Bienvenido, {{user.get_full_name}}</h3>
-    <h5>Número de empleado: {{user.dni}}</h5>
-    <h5>RFC corto: {{user.rfc}}</h5>
-    <h5>Rol: {{user.get_rol_display}}</h5>
     <div class="container">
+      <div class="card text-center">
+        <div class="card-header">
+          <h2>
+          <i class="fas fa-user" style="color: #0069c0;"></i>
+        </h2>
+          <h2><strong>Datos del usuario</strong></h2>
+        </div>
+        <div class="card-body text-center">
+          <h4 class="card-text">Bienvenido, {{user.get_full_name}}</h4>
+          <h5 class="card-text">Número de empleado: {{user.dni}}</h5>
+          <h5 class="card-text">RFC corto: {{user.rfc}}</h5>
+          <h5 class="card-text">Rol: {{ user.groups.first.name }}</h5>
+        </div>
+        <div class="card-footer text-muted">
+          
+        </div>
+      </div>
       <div class="row row-cols-1 row-cols-md-3 g-4 text-center">
         <div class="col">
           <div class="card h-100" style="box-shadow: 0px 12px 22px gray;">
             <br>
-            <i class="fas fa-key fa-4x"></i>
+            <i class="fas fa-key fa-4x" style="color: #0069c0;"></i>
             <div class="card-body">
             <br>
             <h3 class="card-text">Cambiar contraseña</h3>
             </div>
             <div class="card-footer">
               <a href="{% url 'Cpassword' %}" class="btn btn-primary btn">Ingresar</a>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card h-100" style="box-shadow: 0px 12px 22px gray;">
-            <br>
-            <i class="far fa-times-circle fa-4x"></i>
-            <div class="card-body">
-            <br>
-            <h3 class="card-text">Cancelar Folio</h3>
-            </div>
-            <div class="card-footer">
-              <a href="{% url 'cancelar_f' %}" class="btn btn-primary btn">Ingresar</a>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card h-100" style="box-shadow: 0px 12px 22px gray;">
-            <br>
-            <i class="far fa-list-alt fa-4x"></i>
-            <div class="card-body">
-            <br>
-            <h3 class="card-text">Peticiones de cancelaciones</h3>
-            </div>
-            <div class="card-footer">
-              <a href="{% url 'peticion' %}" class="btn btn-primary btn">Ingresar</a>
             </div>
           </div>
         </div>
@@ -112,10 +100,12 @@
   $('#data').DataTable({
     responsive: true,
     autoWidth: false,
+    {% if perms.folio.option %}
     dom: 'Bfrtip',
     buttons: [
       'excel', 'pdf', 'print'
     ]
+    {% endif %}
   });
 </script>
 </body>

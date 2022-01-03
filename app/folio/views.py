@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from folio.forms import Registro_form2, Registro_form, Solicitud_form, fResetPassword
+from folio.forms import Registro_form2, Registro_form, Solicitud_form, fResetPassword, Creargrupo
 from folio.models import solicitud, Usuario
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib import messages
@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.conf import settings
 from utils.folio_generator import GetFolio
 from django.contrib.auth import update_session_auth_hash
+
 
 @login_required(login_url=settings.LOGOUT_REDIRECT_URL)
 def Cpassword(request):
@@ -65,6 +66,7 @@ def reg_usuario(request):
             r.is_active = True
             r.set_password(form.cleaned_data['password'])
             r.save()
+            form.save_m2m()
             print('Registro guardado')
             messages.success(request,'El usuario ha sido registrado')
             return redirect('reg_usuario')
@@ -88,7 +90,7 @@ def cons_usuario(request):
 @login_required(login_url=settings.LOGOUT_REDIRECT_URL)
 def cons_folio(request):
     solis = []
-    if request.user.is_superuser:
+    if request.user.has_perm('folio.option'):
         solis = solicitud.objects.all()
     else:
         solis = request.user.solicitudes.all()
@@ -140,8 +142,19 @@ def mod_folio(request, id):
             print('Registro no guardado')
     return render(request, 'modificar_folio.html', data2)
 
-def cancelar_f(request):
-    return render(request, 'cancelar_folio.html')
-
-def peticion(request):
-    return render(request, 'peticiones.html')
+def grupo(request):
+    if request.method=='POST':
+        form = Creargrupo(request.POST)
+        if form.is_valid():
+            form.save()
+            print('Registro guardado')
+            messages.success(request,'El grupo ha sido registrado')
+            return redirect('grupo')
+        else:
+            print(form.errors)
+            print('Registro no guardado')
+    else:
+        form = Creargrupo()
+    return render(request, 'grupo.html', {
+        'form': form
+    })

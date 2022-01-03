@@ -1,0 +1,36 @@
+{% extends 'home.html' %}
+
+{% block content %}
+{% load static %}
+
+<div class="container">
+    <br>
+    <div class="card card-default">
+        <div class="card-header encabezado">
+            <h3 class="card-title">
+                <i class="fas fa-plus"></i>
+                Grupo
+            </h3>
+
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            <form class="row g-3" method="POST">
+                {% csrf_token %}
+                <div class="col-md-6" autocomplete="off">
+                    {{ form.name.label_tag }}
+                    {{ form.name }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.permissions.label_tag }}
+                    {{ form.permissions }}
+                </div>
+                <div class="col-12">
+                    <br>
+                    <button class="btn btn-primary" type="submit">Registrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

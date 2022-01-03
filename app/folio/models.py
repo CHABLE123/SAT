@@ -15,7 +15,6 @@ class Usuario(AbstractUser):
         ]
 	dni = models.CharField('Número de empleado', max_length=10, unique=True)
 	rfc = models.CharField('RFC corto', max_length=10, unique=True)
-	rol = models.CharField('rol', max_length=150, choices=[('operativo','Operativo'),('administrador','Administrador')])
 	username = models.CharField(
     	'username',
 		blank=True,
@@ -50,15 +49,16 @@ class solicitud(models.Model):
             ('view_requests', 'Ver solicitudes'),
 			('edit_requests', 'Editar solicitudes'),
 			('delete_requests', 'Eliminar solicitudes'),
-			('list_requests', 'Listar solicitudes')
+			('list_requests', 'Listar solicitudes'),
+			('option', 'Opciones'),
         ]
 	uuid = models.UUIDField(default=uuid.uuid4, editable=False)
 	folio = models.CharField('Folio', max_length=15, editable=False, default='No definido')
-	fecha_reg = models.DateTimeField(auto_now=True, null=True)
-	fecha_mod = models.DateTimeField(auto_now_add=True, null=True)
+	fecha_reg = models.DateTimeField(auto_now_add=True, null=True)
+	fecha_mod = models.DateTimeField(auto_now=True, null=True)
 	nombre = models.CharField('Dirigido a', max_length=150)
 	dependencia = models.CharField('Dependencia', max_length=150)
 	motivo = models.CharField('Motivo', max_length=150)
 	firmado = models.CharField('firmado', max_length=150, choices=[('autógrafo','Autógrafo'),('sifen','Sifen')])
 	estatus = models.CharField('estatus', max_length=150, blank=True, default='pendiente', choices=[('pendiente','Pendiente'),('despachado','Despachado'),('cancelado','Cancelado')])
-	usuario = models.ForeignKey(Usuario, on_delete=models.PROTECT, null=True, editable=False, related_name='solicitudes')
+	usuario = models.ForeignKey(Usuario, on_delete=models.SET_NULL, null=True, editable=False, related_name='solicitudes')
