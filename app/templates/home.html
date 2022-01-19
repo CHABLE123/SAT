@@ -2,9 +2,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>SAT | Folio</title>
   <link rel="stylesheet" href="{% static 'lib/adminlte-3.0.4/plugins/fontawesome-free/css/all.min.css' %}">
   <link rel="stylesheet" href="{% static 'lib/adminlte-3.0.4/css/adminlte.min.css' %}">
@@ -82,7 +82,8 @@
 <script src="{% static 'lib/datatables-1.10.20/plugins/buttons-1.6.1/js/buttons.html5.min.js' %}"></script>
 <script src="{% static 'lib/datatables-1.10.20/plugins/buttons-1.6.1/js/buttons.print.min.js' %}"></script>
 <script src="{% static 'lib/datatables-1.10.20/plugins/buttons-1.6.1/js/buttons.colVis.min.js' %}"></script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{% static 'js/sweetalert2@11.js' %}"></script>
+
 {% if messages %}
   {% for m in messages %}
     <script>

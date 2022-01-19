@@ -3,6 +3,7 @@
 <html lang="en">
 
 <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static 'lib/adminlte-3.0.4/plugins/bootstrap/css/bootstrap.min.css' %}">
@@ -80,7 +81,7 @@
                             <button type="submit" class="btn1 mt-3 mb-5 w-100">Ingresar</button>
                         </div>
                     </form>
-                    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                    <script src="{% static 'js/sweetalert2@11.js' %}"></script>
                     {% if form.errors %}
                     <script>
                         Swal.fire({
