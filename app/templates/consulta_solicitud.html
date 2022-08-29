@@ -9,11 +9,27 @@
         <div class="card-header">
             <h3 class="card-title">
                 <i class="fas fa-search"></i>
-                Listado de solicitudes
+                &nbsp;&nbsp;
+                <b>Listado de solicitudes</b>
             </h3>
         </div>
         <!-- /.card-header -->
         <div class="card-body">
+            <form class="text-right">
+                <input name="q" value="{{q}}" class="form-control form-control-lg" type="text" placeholder="0001">
+                <input type="hidden" name="page" value="{{page}}">
+                <input type="hidden" name="t" value="{{t}}">
+                <a href="{% url 'reporte_solicitudes' %}" class="btn btn-success mt-2">Descargar Excel</a>
+                <button type="submit" class="btn btn-secondary mt-2">Buscar folio</button>
+            </form>
+            <p>
+                Filtrar por: &nbsp;
+                <a class="btn {% if t == 'todos' %}active{% endif %} btn-outline-primary btn-sm" href="?q={{q}}&page={{page}}&t=todos" role="button">Todos</a>
+                <a class="btn {% if t == 'pendiente' %}active{% endif %} btn-outline-primary btn-sm" href="?q={{q}}&page={{page}}&t=pendiente" role="button">Pendientes</a>
+                <a class="btn {% if t == 'despachado' %}active{% endif %} btn-outline-primary btn-sm" href="?q={{q}}&page={{page}}&t=despachado" role="button">Despachados</a>
+                <a class="btn {% if t == 'cancelado' %}active{% endif %} btn-outline-primary btn-sm" href="?q={{q}}&page={{page}}&t=cancelado" role="button">Cancelados</a>
+            </p>
+            <p>Total de solicitudes: &nbsp;<b>{{total}}</b></p>
             <table class="table table-striped table-bordered" id="data">
                 <thead>
                     <tr>
@@ -31,9 +47,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for s in solicitudes %}
+                    {% for s in object_list %}
                     <tr>
-
                         <td>{{ s.folio }}</td>
                         <td>{{s.usuario.get_full_name|default:'No especificado'}}</td>
                         <td>{{ s.nombre }}</td>
@@ -56,6 +71,7 @@
                     {% endfor %}
                 </tbody>
             </table>
+            {% include 'base/pagination.html' %}
         </div>
         <div class="card-footer">
         </div>

@@ -7,6 +7,9 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.conf import settings
 from utils.folio_generator import GetFolio
 from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView
+from django.db.models import Q
 
 
 @login_required(login_url=settings.LOGOUT_REDIRECT_URL)
@@ -98,6 +101,25 @@ def cons_folio(request):
         'solicitudes': solis
     }
     return render(request, 'consulta_solicitud.html', data)
+
+class Solicitudes(LoginRequiredMixin, ListView):
+    model = solicitud
+    paginate_by = 20
+    template_name = 'consulta_solicitud.html'
+
+    def get_queryset(self):
+        q = self.request.GET.get('q', '')
+        type_ = self.request.GET.get('t', '')
+        lookup = (Q(folio__icontains = q))
+        solicitudes = self.model._default_manager.filter(lookup)
+        if type_ in ['pendiente', 'despachado', 'cancelado']:
+            solicitudes = solicitudes.filter(estatus=type_)
+        self.queryset = solicitudes
+        return solicitudes
+    
+    def get_context_data(self):
+        context = {'q': self.request.GET.get('q', ''), 't': self.request.GET.get('t', 'todos'), 'total': self.queryset.count()}
+        return super().get_context_data(**context)
 
 @login_required(login_url=settings.LOGOUT_REDIRECT_URL) 
 def mod_usuario(request, id):

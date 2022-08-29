@@ -101,11 +101,12 @@
   $('#data').DataTable({
     responsive: true,
     autoWidth: false,
+    paging: false,
+    searching: false,
     {% if perms.folio.option %}
     dom: 'Bfrtip',
-    buttons: [
-      'excel', 'pdf', 'print'
-    ]
+    buttons: [],
+    info: false
     {% endif %}
   });
 </script>
