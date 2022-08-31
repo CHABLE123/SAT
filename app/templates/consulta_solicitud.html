@@ -60,11 +60,12 @@
                         {% if perms.folio.option %}
                         <td class="text-center">
                             {% if s.estatus == 'cancelado' or s.estatus == 'despachado' %}
-                            <i class="fas fa-ban fa-3x" style="color: red;"></i></a>
+                            <i class="fas fa-ban fa-1x" style="color: red;"></i></a>
                             {% else %}
-                            <a href="{% url 'mod_folio' s.id %}" class="btn btn-primary btn"><i
+                            <a target="_blank" href="{% url 'mod_folio' s.id %}" class="btn btn-primary btn"><i
                                     class="fas fa-edit"></i></a>
                             {% endif %}
+                            <input class="form-check-input ml-2" type="checkbox" id="checkboxNoLabel" value="" aria-label="...">
                         </td>
                         {% endif %}
                     </tr>

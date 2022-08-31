@@ -104,7 +104,7 @@ def cons_folio(request):
 
 class Solicitudes(LoginRequiredMixin, ListView):
     model = solicitud
-    paginate_by = 20
+    paginate_by = 50
     template_name = 'consulta_solicitud.html'
 
     def get_queryset(self):
