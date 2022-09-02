@@ -30,6 +30,7 @@ urlpatterns = [
     path('consulta/usuario/', views.cons_usuario, name="cons_usuario"),
     path('consulta/solicitud', views.Solicitudes.as_view(), name='cons_folio'),
     path('reporte/solicitudes/', generate_report, name='reporte_solicitudes'),
+    path('solicitudes/estatus/', views.CambiarEstatus.as_view(), name='cambiar_estatus'),
     path('modificar/usuario/<id>/', views.mod_usuario, name='mod_usuario'),
     path('eliminar/usuario/<id>/', views.eli_usuario, name='eli_usuario'),
     path('modificar/folio/<id>/', views.mod_folio, name='mod_folio'),

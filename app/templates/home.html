@@ -88,10 +88,11 @@
   {% for m in messages %}
     <script>
       Swal.fire({
-        "title": "{{m}}",
+        title: "{{m}}",
         text: "",
         icon: "success",
-        confirmButtonText: "Ok"
+        timer: 3000,
+        timerProgressBar: true,
       })
     </script>
   {% endfor %}

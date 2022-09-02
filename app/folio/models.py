@@ -52,7 +52,7 @@ class solicitud(models.Model):
 			('list_requests', 'Listar solicitudes'),
 			('option', 'Opciones'),
         ]
-		ordering = ['folio']
+		ordering = ['-folio']
 		
 	uuid = models.UUIDField(default=uuid.uuid4, editable=False)
 	folio = models.CharField('Folio', max_length=15, editable=False, default='No definido')

@@ -23,3 +23,8 @@ table.dataTable thead{
     height: 100%;
   }
 }
+
+input[type=checkbox] {
+	transform: scale(1.2);
+	margin: 0 5px 0 0;
+}

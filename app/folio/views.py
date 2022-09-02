@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from folio.forms import Registro_form2, Registro_form, Solicitud_form, fResetPassword, Creargrupo
 from folio.models import solicitud, Usuario
 from django.shortcuts import redirect, get_object_or_404
@@ -8,7 +9,7 @@ from django.conf import settings
 from utils.folio_generator import GetFolio
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView
+from django.views.generic import ListView, RedirectView
 from django.db.models import Q
 
 
@@ -120,6 +121,29 @@ class Solicitudes(LoginRequiredMixin, ListView):
     def get_context_data(self):
         context = {'q': self.request.GET.get('q', ''), 't': self.request.GET.get('t', 'todos'), 'total': self.queryset.count()}
         return super().get_context_data(**context)
+
+class CambiarEstatus(LoginRequiredMixin, RedirectView):
+    http_method_names = ['post']
+    url = reverse_lazy('cons_folio')
+
+    def post(self, request, *args, **kwargs):
+        folios = request.POST.getlist('folio', [])
+        estatus = 'pendiente'
+        if request.POST.get('done', None) is not None:
+            estatus = 'despachado'
+        if request.POST.get('cancel', None) is not None:
+            estatus = 'cancelado'
+        counter = 0
+        for f in folios:
+            try:
+                folio = solicitud.objects.get(folio=f)
+                folio.estatus = estatus
+                folio.save()
+                counter = counter+1 
+            except solicitud.DoesNotExist:
+                pass
+        messages.success(request, '{} solicitud(es) modificada(s)'.format(counter))
+        return self.get(request, *args, **kwargs)
 
 @login_required(login_url=settings.LOGOUT_REDIRECT_URL) 
 def mod_usuario(request, id):
