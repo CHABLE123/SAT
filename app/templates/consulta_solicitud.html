@@ -43,7 +43,9 @@
                 <input name="q" value="{{q}}" class="form-control form-control-lg" type="text" placeholder="0001">
                 <input type="hidden" name="page" value="{{page}}">
                 <input type="hidden" name="t" value="{{t}}">
+                {% if perms.folio.option %}
                 <a href="{% url 'reporte_solicitudes' %}" class="btn btn-success mt-2">Descargar Excel</a>
+                {% endif %}
                 <button type="submit" class="btn btn-secondary mt-2">Buscar folio</button>
             </form>
             <p>
@@ -60,10 +62,12 @@
             <p>Total de solicitudes: &nbsp;<b>{{total}}</b></p>
             <form action="{% url 'cambiar_estatus' %}" method="post">
                 {% csrf_token %}
+                {% if perms.folio.option %}
                 <div class="text-right mb-2">
                     <button type="submit" name="done" class="btn btn btn-secondary btn-sm status" disabled>Despachar</button>
                     <button type="submit" name="cancel" class="btn btn btn-secondary btn-sm status" disabled>Cancelar</button>
                 </div>
+                {% endif %}
                 <table class="table table-striped table-bordered" id="data">
                     <thead>
                         <tr>
@@ -83,7 +87,7 @@
                     <tbody>
                         {% for s in object_list %}
                         <tr>
-                            <td>{% if s.estatus == 'pendiente' %}<input class="form-check-input mt-2" name="folio" type="checkbox" value="{{s.folio}}" id="{{s.folio}}">{% endif %}<label class="ml-3" for="{{s.folio}}">{{ s.folio }}</label></td>
+                            <td>{% if perms.folio.option %}{% if s.estatus == 'pendiente' %}<input class="form-check-input mt-2" name="folio" type="checkbox" value="{{s.folio}}" id="{{s.folio}}">{% endif %}{% endif %}<label class="ml-3" for="{{s.folio}}">{{ s.folio }}</label></td>
                             <td>{{s.usuario.get_full_name|default:'No especificado'}}</td>
                             <td>{{ s.nombre }}</td>
                             <td>{{ s.dependencia }}</td>
