@@ -27,8 +27,10 @@ urlpatterns = [
     path('home/', views.home, name="home"),
     path('registro/solicitud/', views.reg_folio, name="reg_folio"),
     path('registro/usuario/', views.reg_usuario, name="reg_usuario"),
+    path('registro/reduccion/', views.reg_reduccion, name="reg_reduccion"),
     path('consulta/usuario/', views.cons_usuario, name="cons_usuario"),
     path('consulta/solicitud', views.Solicitudes.as_view(), name='cons_folio'),
+    path('consulta/reduccion/', views.ReduccionesList.as_view(), name="cons_reduccion"),
     path('reporte/solicitudes/', generate_report, name='reporte_solicitudes'),
     path('solicitudes/estatus/', views.CambiarEstatus.as_view(), name='cambiar_estatus'),
     path('modificar/usuario/<id>/', views.mod_usuario, name='mod_usuario'),
@@ -36,5 +38,4 @@ urlpatterns = [
     path('modificar/folio/<id>/', views.mod_folio, name='mod_folio'),
     path('cambiar/contraseña/', views.Cpassword, name='Cpassword'),
     path('grupo/', views.grupo, name='grupo'),
-    
 ]

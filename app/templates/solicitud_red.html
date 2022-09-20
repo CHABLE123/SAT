@@ -1,0 +1,62 @@
+{% extends 'home.html' %}
+{% block head %}
+<script>
+    document.addEventListener('DOMContentLoaded', function(){
+        let form = document.querySelector('form');
+        let button = document.querySelector('#send');
+        form.addEventListener('submit', function(){
+            button.disabled = true;
+        })
+    })
+</script>
+{% endblock %}
+{% block content %}
+{% load static %}
+
+<div class="container">
+    <br>
+    <div class="card card-default">
+        <div class="card-header encabezado">
+            <h3 class="card-title">
+                <i class="fas fa-plus"></i>
+                Solicitud de reducción
+            </h3>
+
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            <form class="row g-3" method="POST">
+                {% csrf_token %}
+                <div class="col-md-6">
+                    {{ form.folio_recepcion.label_tag }}
+                    {{ form.folio_recepcion }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.fecha_recepcion.label_tag }}
+                    {{ form.fecha_recepcion }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.nombre_cont.label_tag }}
+                    {{ form.nombre_cont }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.rfc.label_tag }}
+                    {{ form.rfc }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.oficio.label_tag }}
+                    {{ form.oficio }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.tipo.label_tag }}
+                    {{ form.tipo }}
+                </div>
+                <div class="col-12">
+                    <br>
+                    <button class="btn btn-primary" id="send" type="submit">Registrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

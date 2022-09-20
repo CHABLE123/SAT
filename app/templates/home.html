@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta charset="utf-8">
@@ -9,28 +10,35 @@
   <link rel="stylesheet" href="{% static 'lib/adminlte-3.0.4/plugins/fontawesome-free/css/all.min.css' %}">
   <link rel="stylesheet" href="{% static 'lib/adminlte-3.0.4/css/adminlte.min.css' %}">
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/css/dataTables.bootstrap4.min.css' %}"/>
-  <link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/css/responsive.bootstrap4.min.css' %}"/>
-  <link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/css/jquery.dataTables.min.css' %}"/>
-  <link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/plugins/buttons-1.6.1/css/buttons.dataTables.min.css' %}"/>
+  <link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/css/dataTables.bootstrap4.min.css' %}" />
+  <link rel="stylesheet"
+    href="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/css/responsive.bootstrap4.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'lib/datatables-1.10.20/css/jquery.dataTables.min.css' %}" />
+  <link rel="stylesheet"
+    href="{% static 'lib/datatables-1.10.20/plugins/buttons-1.6.1/css/buttons.dataTables.min.css' %}" />
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
   <link rel="icon" href="{% static 'img/favicon.png' %}">
-  
+
   {% block head %}
 
   {% endblock %}
 </head>
+
 <body class="hold-transition layout-top-nav">
 
-<div class="wrapper">
+  <div class="wrapper">
 
-{% include 'header.html' %}
+    {% include 'header.html' %}
 
-<div class="content-wrapper">
-  <br>
-  {% block content %}
-    <div class="container">
-      <div class="card text-center">
+    <div class="content-wrapper">
+      <br>
+      {% block content %}
+      <div class="container">
+        <h4>Bienvenido&nbsp; <b>{{user.get_full_name}}&nbsp;&nbsp;(</b>{{user.rfc}}<b>)</b></h4>
+        <h6><b>{{user.rfc}}</b></h6>
+      </div>
+      <div class="container">
+        <!-- <div class="card text-center">
         <div class="card-header">
           <h2>
           <i class="fas fa-user" style="color: #0069c0;"></i>
@@ -46,46 +54,98 @@
         <div class="card-footer text-muted">
           
         </div>
-      </div>
-      <div class="row row-cols-1 row-cols-md-3 g-4 text-center">
-        <div class="col">
-          <div class="card h-100" style="box-shadow: 0px 12px 22px gray;">
-            <br>
-            <i class="fas fa-key fa-4x" style="color: #0069c0;"></i>
-            <div class="card-body">
-            <br>
-            <h3 class="card-text">Cambiar contraseña</h3>
+      </div> -->
+      <br><br>
+        <div class="row row-cols-1 row-cols-md-3 g-4 text-center">
+          {% if perms.folio.create_users and perms.folio.list_users %}
+          <div class="col" style="margin-bottom: 20px;">
+            <div class="card h-100" style="box-shadow: 0px 3px 8px gray;">
+              <br>
+              <i class="fas fa-user-alt fa-4x" style="color: #0069c0;"></i>
+              <div class="card-body">
+                <br>
+                <h4 class="card-text"><b>Usuarios</b></h4>
+              </div>
+              <div class="card-footer">
+                {% if perms.folio.create_users %}
+                <a href="{% url 'reg_usuario' %}" class="btn btn-light">Registrar</a>
+                {% endif %}
+                {% if perms.folio.list_users %}
+                <a href="{% url 'cons_usuario' %}" class="btn btn-light">Consultar</a>
+                {% endif %}
+              </div>
             </div>
-            <div class="card-footer">
-              <a href="{% url 'Cpassword' %}" class="btn btn-primary btn">Ingresar</a>
+          </div>
+          {% endif %}
+          <div class="col" style="margin-bottom: 20px;">
+            <div class="card h-100" style="box-shadow: 0px 3px 8px gray;">
+              <br>
+              <i class="fas fa-file-import fa-4x" style="color: #0069c0;"></i>
+              <div class="card-body">
+                <br>
+                <h4 class="card-text"><b>Solicitar folio</b></h4>
+              </div>
+              <div class="card-footer">
+                <a href="{% url 'reg_folio' %}" class="btn btn-light">Solicitar</a>
+                <a href="{% url 'cons_folio' %}" class="btn btn-light">Consultar</a>
+              </div>
+            </div>
+          </div>
+          <div class="col" style="margin-bottom: 20px;">
+            <div class="card h-100" style="box-shadow: 0px 3px 8px gray;">
+              <br>
+              <i class="fas fa-file fa-4x" style="color: #0069c0;"></i>
+              <div class="card-body">
+                <br>
+                <h4 class="card-text"><b>Reducciones</b></h4>
+              </div>
+              <div class="card-footer">
+                <a href="{% url 'reg_reduccion' %}" class="btn btn-light">Solicitar</a>
+                <a href="{% url 'cons_reduccion' %}" class="btn btn-light">Consultar</a>
+              </div>
+            </div>
+          </div>
+          <div class="col" style="margin-bottom: 20px;">
+            <div class="card h-100" style="box-shadow: 0px 3px 8px gray;">
+              <br>
+              <i class="fas fa-key fa-4x" style="color: #0069c0;"></i>
+              <div class="card-body">
+                <br>
+                <h4 class="card-text"><b>Cambiar contraseña</b></h4>
+              </div>
+              <div class="card-footer">
+                <a href="{% url 'Cpassword' %}" class="btn btn-primary btn">Seleccionar</a>
+              </div>
             </div>
           </div>
         </div>
+        <br><br>
       </div>
+      {% endblock %}
     </div>
-  {% endblock %}
-</div>
 
-{% include 'footer.html' %}
+    {% include 'footer.html' %}
 
 
-<script src="{% static 'lib/adminlte-3.0.4/plugins/jquery/jquery.min.js' %}"></script>
-<script src="{% static 'lib/adminlte-3.0.4/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-<script src="{% static 'lib/adminlte-3.0.4/js/adminlte.min.js' %}"></script>
-<script src="{% static 'lib/datatables-1.10.20/js/jquery.dataTables.js' %}"></script>
-<script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/dataTables.responsive.min.js' %}"></script>
-<script src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/responsive.bootstrap4.min.js' %}"></script>
-<script src="{% static 'lib/datatables-1.10.20/plugins/buttons-1.6.1/js/dataTables.buttons.min.js' %}"></script>
-<script src="{% static 'lib/datatables-1.10.20/plugins/jszip-2.5.0/jszip.min.js' %}"></script>
-<script src="{% static 'lib/datatables-1.10.20/plugins/pdfmake-0.1.36/pdfmake.min.js' %}"></script>
-<script src="{% static 'lib/datatables-1.10.20/plugins/pdfmake-0.1.36/vfs_fonts.js' %}"></script>
-<script src="{% static 'lib/datatables-1.10.20/plugins/buttons-1.6.1/js/buttons.html5.min.js' %}"></script>
-<script src="{% static 'lib/datatables-1.10.20/plugins/buttons-1.6.1/js/buttons.print.min.js' %}"></script>
-<script src="{% static 'lib/datatables-1.10.20/plugins/buttons-1.6.1/js/buttons.colVis.min.js' %}"></script>
-<script src="{% static 'js/sweetalert2@11.js' %}"></script>
+    <script src="{% static 'lib/adminlte-3.0.4/plugins/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'lib/adminlte-3.0.4/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'lib/adminlte-3.0.4/js/adminlte.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/js/jquery.dataTables.js' %}"></script>
+    <script
+      src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/dataTables.responsive.min.js' %}"></script>
+    <script
+      src="{% static 'lib/datatables-1.10.20/plugins/responsive-2.2.3/js/responsive.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/buttons-1.6.1/js/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/jszip-2.5.0/jszip.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/pdfmake-0.1.36/pdfmake.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/pdfmake-0.1.36/vfs_fonts.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/buttons-1.6.1/js/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/buttons-1.6.1/js/buttons.print.min.js' %}"></script>
+    <script src="{% static 'lib/datatables-1.10.20/plugins/buttons-1.6.1/js/buttons.colVis.min.js' %}"></script>
+    <script src="{% static 'js/sweetalert2@11.js' %}"></script>
 
-{% if messages %}
-  {% for m in messages %}
+    {% if messages %}
+    {% for m in messages %}
     <script>
       Swal.fire({
         title: "{{m}}",
@@ -95,22 +155,23 @@
         timerProgressBar: true,
       })
     </script>
-  {% endfor %}
-{% endif %}
-
-<script type="application/javascript">
-  $('#data').DataTable({
-    responsive: true,
-    autoWidth: false,
-    paging: false,
-    searching: false,
-    order: [[0, 'desc']],
-    {% if perms.folio.option %}
-    dom: 'Bfrtip',
-    buttons: [],
-    info: false
+    {% endfor %}
     {% endif %}
-  });
-</script>
+
+    <script type="application/javascript">
+      $('#data').DataTable({
+        responsive: true,
+        autoWidth: false,
+        paging: false,
+        searching: false,
+        order: [[0, 'desc']],
+        {% if perms.folio.option %}
+          dom: 'Bfrtip',
+          buttons: [],
+            info: false
+        {% endif %}
+      });
+    </script>
 </body>
+
 </html>

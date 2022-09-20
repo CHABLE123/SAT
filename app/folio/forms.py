@@ -1,4 +1,5 @@
 from django import forms
+from folio.models import Reducciones
 from folio.models import Usuario
 from folio.models import solicitud
 from django.contrib.auth.forms import AuthenticationForm, UsernameField
@@ -15,6 +16,19 @@ class Solicitud_form(forms.ModelForm):
             'firmado': forms.Select(attrs={'class': 'form-control'}),
             'archivo': forms.ClearableFileInput(attrs={'class': 'form-control'}),
             'estatus': forms.Select(attrs={'class': 'form-control'})
+        }
+
+class ReduccionForm(forms.ModelForm):
+    class Meta:
+        model = Reducciones
+        fields = "__all__"
+        widgets = {
+            'folio_recepcion': forms.TextInput(attrs={'class': 'form-control'}),
+            'fecha_recepcion': forms.TextInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'nombre_cont': forms.TextInput(attrs={'class': 'form-control'}),
+            'rfc': forms.TextInput(attrs={'class': 'form-control'}),
+            'oficio': forms.TextInput(attrs={'class': 'form-control'}),
+            'tipo': forms.Select(attrs={'class': 'form-control'}),
         }
 
 class Registro_form(forms.ModelForm):

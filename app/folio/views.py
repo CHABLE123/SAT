@@ -1,6 +1,8 @@
+import datetime
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from folio.forms import Registro_form2, Registro_form, Solicitud_form, fResetPassword, Creargrupo
+from folio.models import Reducciones
+from folio.forms import Registro_form2, Registro_form, Solicitud_form, fResetPassword, Creargrupo, ReduccionForm
 from folio.models import solicitud, Usuario
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib import messages
@@ -84,6 +86,32 @@ def reg_usuario(request):
     })
 
 @login_required(login_url=settings.LOGOUT_REDIRECT_URL)
+def reg_reduccion(request):
+    if request.method=='POST':
+        form = ReduccionForm(request.POST)
+        if form.is_valid():
+            f=form.save(commit=False)
+            if f.tipo == 't1':
+                folio = GetFolio(Reducciones.objects.filter(tipo='t1'), start = 236)
+                folio = folio.generate()
+                f.folio = 'RED74{}/{}'.format(folio, datetime.date.today().year)
+            else:
+                folio = GetFolio(Reducciones.objects.filter(tipo='t2'), start = 5)
+                folio = folio.generate()
+                f.folio = 'RED/VA/ART41Y74/{}/{}'.format(folio, datetime.date.today().strftime('%y'))
+            f.ejecutivo = request.user
+            f.save()
+            messages.success(request,'Tu numero de folio es '+f.folio)
+            return redirect('reg_reduccion')
+        else:
+            pass
+    else:
+        form = ReduccionForm()
+    return render(request, 'solicitud_red.html', {
+        'form': form
+    })
+
+@login_required(login_url=settings.LOGOUT_REDIRECT_URL)
 @permission_required(['folio.list_users'], raise_exception = True)
 def cons_usuario(request):
     data = {
@@ -102,6 +130,25 @@ def cons_folio(request):
         'solicitudes': solis
     }
     return render(request, 'consulta_solicitud.html', data)
+
+class ReduccionesList(LoginRequiredMixin, ListView):
+    model = Reducciones
+    paginate_by = 50
+    template_name = 'consulta_red.html'
+
+    def get_queryset(self):
+        q = self.request.GET.get('q', '')
+        type_ = self.request.GET.get('t', '')
+        lookup = (Q(folio__icontains = q))
+        solicitudes = self.model._default_manager.filter(lookup)
+        if type_ in ['t1', 't2']:
+            solicitudes = solicitudes.filter(estatus=type_)
+        self.queryset = solicitudes
+        return solicitudes
+    
+    def get_context_data(self):
+        context = {'q': self.request.GET.get('q', ''), 't': self.request.GET.get('t', 'todos'), 'total': self.queryset.count()}
+        return super().get_context_data(**context)
 
 class Solicitudes(LoginRequiredMixin, ListView):
     model = solicitud

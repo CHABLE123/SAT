@@ -64,3 +64,28 @@ class solicitud(models.Model):
 	firmado = models.CharField('firmado', max_length=150, choices=[('autógrafo','Autógrafo'),('sifen','Sifen')])
 	estatus = models.CharField('estatus', max_length=150, blank=True, default='pendiente', choices=[('pendiente','Pendiente'),('despachado','Despachado'),('cancelado','Cancelado')])
 	usuario = models.ForeignKey(Usuario, on_delete=models.SET_NULL, null=True, editable=False, related_name='solicitudes')
+
+class Reducciones(models.Model):
+	class Meta:
+		default_permissions = []
+		# permissions = [
+		# 	('create_requests', 'Crear solicitudes'),
+        #     ('view_requests', 'Ver solicitudes'),
+		# 	('edit_requests', 'Editar solicitudes'),
+		# 	('delete_requests', 'Eliminar solicitudes'),
+		# 	('list_requests', 'Listar solicitudes'),
+		# 	('option', 'Opciones'),
+        # ]
+		ordering = ['-fecha_reg']
+
+	uuid = models.UUIDField(default=uuid.uuid4, editable=False)
+	folio = models.CharField(max_length=50, editable=False, default='No definido')
+	fecha_reg = models.DateTimeField(auto_now_add=True, null=True)
+	fecha_mod = models.DateTimeField(auto_now=True, null=True)
+	folio_recepcion = models.CharField('Folio de recepción', max_length=15)
+	fecha_recepcion = models.DateField('Fecha de recepción')
+	rfc = models.CharField('R.F.C.', max_length=15)
+	nombre_cont = models.CharField('Nombre del contribuyente', max_length=100)
+	oficio = models.CharField('Oficio', max_length=100)
+	ejecutivo = models.ForeignKey(Usuario, editable=False, on_delete=models.SET_NULL, null=True, related_name='reducciones')
+	tipo = models.CharField('Tipo', max_length=30, choices=[('t1', 'Tipo 1'), ('t2', 'Tipo 2')], null=True, default='t1')

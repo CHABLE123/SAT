@@ -16,40 +16,14 @@
                 <li class="nav-item">
                     <a href="{% url 'home' %}" class="nav-link">
                         <i class="fas fa-home"></i>
-                        Home
-                    </a>
-                </li>
-                {% if perms.folio.create_users %}
-                <li class="nav-item">
-                    <a href="{% url 'reg_usuario' %}" class="nav-link">
-                        <i class="fas fa-user"></i>
-                        Registro de usuarios
-                    </a>
-                </li>
-                {% endif %}
-                {% if perms.folio.list_users %}
-                <li class="nav-item">
-                    <a href="{% url 'cons_usuario' %}" class="nav-link">
-                        <i class="fas fa-search"></i>
-                        Consulta de usuarios
-                    </a>
-                </li>
-                {% endif %}
-                <li class="nav-item">
-                    <a href="{% url 'reg_folio' %}" class="nav-link">
-                        <i class="fas fa-file-alt"></i>
-                        Solicitar folio
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{% url 'cons_folio' %}" class="nav-link">
-                        <i class="fas fa-search"></i>
-                        Consulta de folios
+                        &nbsp;
+                        Principal
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{% url 'logout' %}" class="nav-link">
                         <i class="fas fa-lock"></i>
+                        &nbsp;
                         Cerrar sesión
                     </a>
                 </li>
