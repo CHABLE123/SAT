@@ -18,7 +18,7 @@ from django.urls import path
 from folio import views
 from django.contrib.auth.views import LogoutView, LoginView
 from folio.forms import LoginForm
-from utils.reportes import generate_report
+from utils.reportes import generate_report, generate_report_red
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,6 +32,7 @@ urlpatterns = [
     path('consulta/solicitud', views.Solicitudes.as_view(), name='cons_folio'),
     path('consulta/reduccion/', views.ReduccionesList.as_view(), name="cons_reduccion"),
     path('reporte/solicitudes/', generate_report, name='reporte_solicitudes'),
+    path('reporte/reducciones/', generate_report_red, name='reporte_red'),
     path('solicitudes/estatus/', views.CambiarEstatus.as_view(), name='cambiar_estatus'),
     path('modificar/usuario/<id>/', views.mod_usuario, name='mod_usuario'),
     path('eliminar/usuario/<id>/', views.eli_usuario, name='eli_usuario'),

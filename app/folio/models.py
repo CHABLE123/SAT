@@ -88,4 +88,4 @@ class Reducciones(models.Model):
 	nombre_cont = models.CharField('Nombre del contribuyente', max_length=100)
 	oficio = models.CharField('Oficio', max_length=100)
 	ejecutivo = models.ForeignKey(Usuario, editable=False, on_delete=models.SET_NULL, null=True, related_name='reducciones')
-	tipo = models.CharField('Tipo', max_length=30, choices=[('t1', 'Tipo 1'), ('t2', 'Tipo 2')], null=True, default='t1')
+	tipo = models.CharField('Tipo', max_length=30, choices=[('t1', 'RED. ART. 74 CFF'), ('t2', 'RED. ART. 41Y74 CFF')], null=True)

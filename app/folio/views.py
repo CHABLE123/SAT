@@ -46,7 +46,7 @@ def reg_folio(request):
     if request.method=='POST':
         form = Solicitud_form(request.POST)
         if form.is_valid():
-            folio = GetFolio(solicitud)
+            folio = GetFolio(solicitud.objects.all())
             f=form.save(commit=False)
             f.folio = folio.generate()
             f.usuario = request.user
@@ -142,7 +142,7 @@ class ReduccionesList(LoginRequiredMixin, ListView):
         lookup = (Q(folio__icontains = q))
         solicitudes = self.model._default_manager.filter(lookup)
         if type_ in ['t1', 't2']:
-            solicitudes = solicitudes.filter(estatus=type_)
+            solicitudes = solicitudes.filter(tipo=type_)
         self.queryset = solicitudes
         return solicitudes
     

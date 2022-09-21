@@ -15,8 +15,20 @@
                 <input name="q" value="{{q}}" class="form-control form-control-lg" type="text" placeholder="0001">
                 <input type="hidden" name="page" value="{{page}}">
                 <input type="hidden" name="t" value="{{t}}">
-                <button type="submit" class="btn btn-secondary mt-2">Buscar folio de reducción</button>
+                {% if perms.folio.option %}
+                <a href="{% url 'reporte_red' %}" class="btn btn-success mt-2">Descargar Excel</a>
+                {% endif %}
+                <button type="submit" class="btn btn-secondary mt-2">Buscar folio</button>
             </form>
+            <p>
+                Filtrar por: &nbsp;
+                <a class="btn {% if t == 'todos' %}active{% endif %} btn-outline-primary btn-sm"
+                    href="?q={{q}}&page={{page}}&t=todos" role="button">Todos</a>
+                <a class="btn {% if t == 't1' %}active{% endif %} btn-outline-primary btn-sm"
+                    href="?q={{q}}&page={{page}}&t=t1" role="button">RED. ART. 74 CFF</a>
+                <a class="btn {% if t == 't2' %}active{% endif %} btn-outline-primary btn-sm"
+                    href="?q={{q}}&page={{page}}&t=t2" role="button">RED. ART. 41Y74 CFF</a>
+            </p>
             <p>Total de resultados: &nbsp;<b>{{total}}</b></p>
             <table class="table table-striped table-bordered" id="data">
                 <thead>
