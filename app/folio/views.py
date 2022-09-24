@@ -140,6 +140,11 @@ class ReduccionesList(LoginRequiredMixin, ListView):
         q = self.request.GET.get('q', '')
         type_ = self.request.GET.get('t', '')
         lookup = (Q(folio__icontains = q))
+        if self.request.user.has_perm('folio.option_red'):
+            solicitudes = self.model._default_manager.filter(lookup)
+        else:
+            solicitudes = self.request.user.reducciones.filter(lookup)
+
         solicitudes = self.model._default_manager.filter(lookup)
         if type_ in ['t1', 't2']:
             solicitudes = solicitudes.filter(tipo=type_)
@@ -159,7 +164,10 @@ class Solicitudes(LoginRequiredMixin, ListView):
         q = self.request.GET.get('q', '')
         type_ = self.request.GET.get('t', '')
         lookup = (Q(folio__icontains = q))
-        solicitudes = self.model._default_manager.filter(lookup)
+        if self.request.user.has_perm('folio.option'):
+            solicitudes = self.model._default_manager.filter(lookup)
+        else:
+            solicitudes = self.request.user.solicitudes.filter(lookup)
         if type_ in ['pendiente', 'despachado', 'cancelado']:
             solicitudes = solicitudes.filter(estatus=type_)
         self.queryset = solicitudes

@@ -29,6 +29,8 @@ class ReduccionForm(forms.ModelForm):
             'rfc': forms.TextInput(attrs={'class': 'form-control'}),
             'oficio': forms.TextInput(attrs={'class': 'form-control'}),
             'tipo': forms.Select(attrs={'class': 'form-control'}),
+            'no_oficio': forms.Select(attrs={'class': 'form-control'}),
+            'txt_folio': forms.TextInput(attrs={'class': 'form-control'})
         }
 
 class Registro_form(forms.ModelForm):

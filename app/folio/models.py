@@ -68,14 +68,14 @@ class solicitud(models.Model):
 class Reducciones(models.Model):
 	class Meta:
 		default_permissions = []
-		# permissions = [
-		# 	('create_requests', 'Crear solicitudes'),
-        #     ('view_requests', 'Ver solicitudes'),
-		# 	('edit_requests', 'Editar solicitudes'),
-		# 	('delete_requests', 'Eliminar solicitudes'),
-		# 	('list_requests', 'Listar solicitudes'),
-		# 	('option', 'Opciones'),
-        # ]
+		permissions = [
+			('create_requests', 'Crear solicitudes'),
+            ('view_requests', 'Ver solicitudes'),
+			('edit_requests', 'Editar solicitudes'),
+			('delete_requests', 'Eliminar solicitudes'),
+			('list_requests', 'Listar solicitudes'),
+			('option_red', 'Opciones'),
+        ]
 		ordering = ['-fecha_reg']
 
 	uuid = models.UUIDField(default=uuid.uuid4, editable=False)
@@ -86,6 +86,8 @@ class Reducciones(models.Model):
 	fecha_recepcion = models.DateField('Fecha de recepción')
 	rfc = models.CharField('R.F.C.', max_length=15)
 	nombre_cont = models.CharField('Nombre del contribuyente', max_length=100)
-	oficio = models.CharField('Oficio', max_length=100)
+	oficio = models.CharField('Determinante', max_length=100)
 	ejecutivo = models.ForeignKey(Usuario, editable=False, on_delete=models.SET_NULL, null=True, related_name='reducciones')
 	tipo = models.CharField('Tipo', max_length=30, choices=[('t1', 'RED. ART. 74 CFF'), ('t2', 'RED. ART. 41Y74 CFF')], null=True)
+	no_oficio = models.CharField('Selecciona el no. de oficio', max_length=100, choices=(('n1', '400-58-00-02-01-2022'), ('n2', '400-58-00-02-02-2022'), ('n3', '400-58-00-03-00-2022')), null=True)
+	txt_folio = models.CharField('Número de folio', max_length=100, null=True)

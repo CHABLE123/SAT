@@ -35,6 +35,7 @@
                     <tr>
                         <th scope="col">Fecha de asignación</th>
                         <th scope="col">No. de condonación</th>
+                        <th scope="col">No. de folio</th>
                         <th scope="col">Folio de recepción</th>
                         <th scope="col">Fecha de recepción</th>
                         <th scope="col">R.F.C.</th>
@@ -48,6 +49,14 @@
                     <tr>
                         <td>{{obj.fecha_reg}}</td>
                         <td>{{obj.folio}}</td>
+                        <td>
+                            {% if obj.no_oficio %}
+                            {{obj.get_no_oficio_display}}
+                            {% endif %}
+                            {% if obj.txt_folio %}
+                            -{{obj.txt_folio}}
+                            {% endif %}
+                        </td>
                         <td>{{obj.folio_recepcion}}</td>
                         <td>{{obj.fecha_recepcion}}</td>
                         <td>{{obj.rfc}}</td>
