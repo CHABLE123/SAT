@@ -92,11 +92,11 @@ def reg_reduccion(request):
         if form.is_valid():
             f=form.save(commit=False)
             if f.tipo == 't1':
-                folio = GetFolio(Reducciones.objects.filter(tipo='t1'), start = 236)
+                folio = GetFolio(Reducciones.objects.filter(tipo='t1'))
                 folio = folio.generate()
                 f.folio = 'RED74{}/{}'.format(folio, datetime.date.today().year)
             else:
-                folio = GetFolio(Reducciones.objects.filter(tipo='t2'), start = 5)
+                folio = GetFolio(Reducciones.objects.filter(tipo='t2'))
                 folio = folio.generate()
                 f.folio = 'RED/VA/ART41Y74/{}/{}'.format(folio, datetime.date.today().strftime('%y'))
             f.ejecutivo = request.user
