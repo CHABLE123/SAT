@@ -13,6 +13,8 @@ class IndicadorForm(forms.ModelForm):
             'nombre': forms.TextInput(attrs={'class': 'form-control'}),
             'mes': forms.Select(attrs={'class': 'form-control'}),
             'anio': forms.Select(attrs={'class': 'form-control'}),
+            'porcentaje': forms.NumberInput(attrs={'class': 'form-control'}),
+            'cantidad': forms.NumberInput(attrs={'class': 'form-control'})
         }
 
 class Solicitud_form(forms.ModelForm):

@@ -279,16 +279,21 @@ class IndicadoresList(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         q = self.request.GET.get('q', '')
-        lookup = (Q(nombre__icontains = q))
+        mes = self.request.GET.get('mes', datetime.datetime.now().month)
+        anio = self.request.GET.get('anio', datetime.datetime.now().year)
+        lookup = (Q(nombre__icontains = q) & (Q(mes__exact = mes) & Q(anio__exact = anio)))
         solicitudes = self.model._default_manager.filter(lookup)
         self.queryset = solicitudes
         return solicitudes
     
     def get_context_data(self):
+        mes = self.request.GET.get('mes', datetime.datetime.now().month)
+        anio = self.request.GET.get('anio', datetime.datetime.now().year)
         context = {
-            'q': self.request.GET.get('q', ''), 
+            'q': self.request.GET.get('q', ''),
             'total': self.queryset.count(),
-            'form': IndicadorForm(label_suffix='', initial={'mes': datetime.datetime.now().month, 'anio': datetime.datetime.now().year})
+            'form': IndicadorForm(label_suffix='', initial={'mes': datetime.datetime.now().month, 'anio': datetime.datetime.now().year}),
+            'form2': IndicadorForm(label_suffix='', initial={'mes': mes, 'anio': anio})
         }
         return super().get_context_data(**context)
 

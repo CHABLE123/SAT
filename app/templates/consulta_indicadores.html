@@ -1,6 +1,7 @@
 {% extends 'home.html' %}
 {% block content %}
 {% load static %}
+{% load humanize %}
 <div class="container">
     <br>
     <div class="card card-default">
@@ -14,6 +15,16 @@
         <!-- /.card-header -->
         <div class="card-body">
             <form class="text-right">
+                <div class="row mb-2 text-left">
+                    <div class="col-md-6">
+                        {{form2.mes.label_tag}}
+                        {{form2.mes}}
+                    </div>
+                    <div class="col-md-6">
+                        {{form2.anio.label_tag}}
+                        {{form2.anio}}
+                    </div>
+                </div>
                 <input name="q" value="{{q}}" class="form-control form-control-lg" type="text"
                     placeholder="Nombre del indicador">
                 <input type="hidden" name="page" value="{{page}}">
@@ -28,6 +39,8 @@
                         <th scope="col">Nombre del indicador</th>
                         <th scope="col">Mes</th>
                         <th scope="col">Año</th>
+                        <th scope="col">Porcentaje</th>
+                        <th scope="col">Cantidad</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,6 +49,8 @@
                         <td>{{s.nombre}}</td>
                         <td>{{s.get_mes_display}}</td>
                         <td>{{s.get_anio_display}}</td>
+                        <td>{{s.porcentaje}} %</td>
+                        <td>${{s.cantidad|intcomma}}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -64,6 +79,16 @@
                         <div class="col-md-12">
                             {{form.nombre.label_tag}}
                             {{form.nombre}}
+                            <br>
+                        </div>
+                        <div class="col-md-12">
+                            {{form.porcentaje.label_tag}}
+                            {{form.porcentaje}}
+                            <br>
+                        </div>
+                        <div class="col-md-12">
+                            {{form.cantidad.label_tag}}
+                            {{form.cantidad}}
                             <br>
                         </div>
                         <div class="col-md-6">
