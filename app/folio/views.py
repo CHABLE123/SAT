@@ -13,6 +13,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, RedirectView
 from django.db.models import Q
+from django.utils.timezone import make_aware
 
 
 @login_required(login_url=settings.LOGOUT_REDIRECT_URL)
@@ -138,6 +139,7 @@ class ReduccionesList(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         q = self.request.GET.get('q', '')
+        d = self.request.GET.get('d', '')
         type_ = self.request.GET.get('t', '')
         lookup = (Q(folio__icontains = q))
         if self.request.user.has_perm('folio.option_red'):
@@ -148,11 +150,16 @@ class ReduccionesList(LoginRequiredMixin, ListView):
         solicitudes = self.model._default_manager.filter(lookup)
         if type_ in ['t1', 't2']:
             solicitudes = solicitudes.filter(tipo=type_)
+        try:
+            d = make_aware(datetime.datetime.fromisoformat(d)).date()
+            solicitudes = solicitudes.filter(fecha_reg__date=d)
+        except:
+            pass
         self.queryset = solicitudes
         return solicitudes
     
     def get_context_data(self):
-        context = {'q': self.request.GET.get('q', ''), 't': self.request.GET.get('t', 'todos'), 'total': self.queryset.count()}
+        context = {'q': self.request.GET.get('q', ''), 'd': self.request.GET.get('d', ''), 't': self.request.GET.get('t', 'todos'), 'total': self.queryset.count()}
         return super().get_context_data(**context)
 
 class Solicitudes(LoginRequiredMixin, ListView):
@@ -162,6 +169,7 @@ class Solicitudes(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         q = self.request.GET.get('q', '')
+        d = self.request.GET.get('d', '')
         type_ = self.request.GET.get('t', '')
         lookup = (Q(folio__icontains = q))
         if self.request.user.has_perm('folio.option'):
@@ -170,11 +178,16 @@ class Solicitudes(LoginRequiredMixin, ListView):
             solicitudes = self.request.user.solicitudes.filter(lookup)
         if type_ in ['pendiente', 'despachado', 'cancelado']:
             solicitudes = solicitudes.filter(estatus=type_)
+        try:
+            d = make_aware(datetime.datetime.fromisoformat(d)).date()
+            solicitudes = solicitudes.filter(fecha_reg__date=d)
+        except:
+            pass
         self.queryset = solicitudes
         return solicitudes
     
     def get_context_data(self):
-        context = {'q': self.request.GET.get('q', ''), 't': self.request.GET.get('t', 'todos'), 'total': self.queryset.count()}
+        context = {'q': self.request.GET.get('q', ''), 'd': self.request.GET.get('d', ''), 't': self.request.GET.get('t', 'todos'), 'total': self.queryset.count()}
         return super().get_context_data(**context)
 
 class CambiarEstatus(LoginRequiredMixin, RedirectView):
