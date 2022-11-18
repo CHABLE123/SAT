@@ -52,13 +52,13 @@
             <p>
                 Filtrar por: &nbsp;
                 <a class="btn {% if t == 'todos' %}active{% endif %} btn-outline-primary btn-sm"
-                    href="?q={{q}}&page={{page}}&t=todos" role="button">Todos</a>
+                    href="?q={{q}}&d={{d}}&page={{page}}&t=todos" role="button">Todos</a>
                 <a class="btn {% if t == 'pendiente' %}active{% endif %} btn-outline-primary btn-sm"
-                    href="?q={{q}}&page={{page}}&t=pendiente" role="button">Pendientes</a>
+                    href="?q={{q}}&d={{d}}&page={{page}}&t=pendiente" role="button">Pendientes</a>
                 <a class="btn {% if t == 'despachado' %}active{% endif %} btn-outline-primary btn-sm"
-                    href="?q={{q}}&page={{page}}&t=despachado" role="button">Despachados</a>
+                    href="?q={{q}}&d={{d}}&page={{page}}&t=despachado" role="button">Despachados</a>
                 <a class="btn {% if t == 'cancelado' %}active{% endif %} btn-outline-primary btn-sm"
-                    href="?q={{q}}&page={{page}}&t=cancelado" role="button">Cancelados</a>
+                    href="?q={{q}}&d={{d}}&page={{page}}&t=cancelado" role="button">Cancelados</a>
             </p>
             <p>Total de solicitudes: &nbsp;<b>{{total}}</b></p>
             <form action="{% url 'cambiar_estatus' %}" method="post">
