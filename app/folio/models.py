@@ -91,3 +91,57 @@ class Reducciones(models.Model):
 	tipo = models.CharField('Tipo', max_length=30, choices=[('t1', 'RED. ART. 74 CFF'), ('t2', 'RED. ART. 41Y74 CFF')], null=True)
 	no_oficio = models.CharField('Selecciona el no. de oficio', max_length=100, choices=(('n1', '400-58-00-02-01-2022'), ('n2', '400-58-00-02-02-2022'), ('n3', '400-58-00-03-00-2022')), null=True)
 	txt_folio = models.CharField('Número de folio', max_length=100, null=True)
+
+class Indicadores(models.Model):
+	meses = (
+		('1', 'Enero'),
+		('2', 'Febrero'),
+		('3', 'Marzo'),
+		('4', 'Abril'),
+		('5', 'Mayo'),
+		('6', 'Junio'),
+		('7', 'Julio'),
+		('8', 'Agosto'),
+		('9', 'Septiembre'),
+		('10', 'Octubre'),
+		('11', 'Noviembre'),
+		('12', 'Diciembre')
+	)
+
+	anios = (
+		('2010', '2010'),
+		('2011', '2011'),
+		('2012', '2012'),
+		('2013', '2013'),
+		('2014', '2014'),
+		('2015', '2015'),
+		('2016', '2016'),
+		('2017', '2017'),
+		('2018', '2018'),
+		('2019', '2019'),
+		('2020', '2020'),
+		('2021', '2021'),
+		('2022', '2022'),
+		('2023', '2023'),
+		('2024', '2024'),
+		('2025', '2025'),
+	)
+
+	class Meta:
+		default_permissions = []
+		permissions = [
+			('create_ind', 'Crear indicadores'),
+            ('view_ind', 'Ver indicadores'),
+			('edit_ind', 'Editar indicadores'),
+			('delete_ind', 'Eliminar indicadores'),
+			('list_ind', 'Listar indicadores'),
+			('option_ind', 'Opciones'),
+        ]
+		ordering = ['fecha_reg']
+
+	uuid = models.UUIDField(default=uuid.uuid4, editable=False)
+	nombre = models.CharField('Nombre de indicador', max_length=500)
+	mes = models.CharField('Mes', choices=meses, max_length=20)
+	anio = models.CharField('Año', choices=anios, max_length=5)
+	fecha_reg = models.DateTimeField(auto_now_add=True, null=True)
+	fecha_mod = models.DateTimeField(auto_now=True, null=True)

@@ -1,9 +1,19 @@
 from django import forms
-from folio.models import Reducciones
+from folio.models import Reducciones, Indicadores
 from folio.models import Usuario
 from folio.models import solicitud
 from django.contrib.auth.forms import AuthenticationForm, UsernameField
 from django.contrib.auth.models import Group
+
+class IndicadorForm(forms.ModelForm):
+    class Meta:
+        model = Indicadores
+        fields = "__all__"
+        widgets = {
+            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+            'mes': forms.Select(attrs={'class': 'form-control'}),
+            'anio': forms.Select(attrs={'class': 'form-control'}),
+        }
 
 class Solicitud_form(forms.ModelForm):
     class Meta:

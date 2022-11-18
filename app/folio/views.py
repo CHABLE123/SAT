@@ -1,9 +1,8 @@
 import datetime
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from folio.models import Reducciones
-from folio.forms import Registro_form2, Registro_form, Solicitud_form, fResetPassword, Creargrupo, ReduccionForm
-from folio.models import solicitud, Usuario
+from folio.forms import Registro_form2, Registro_form, Solicitud_form, fResetPassword, Creargrupo, ReduccionForm, IndicadorForm
+from folio.models import solicitud, Usuario, Indicadores, Reducciones
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
@@ -272,3 +271,36 @@ def grupo(request):
     return render(request, 'grupo.html', {
         'form': form
     })
+
+class IndicadoresList(LoginRequiredMixin, ListView):
+    model = Indicadores
+    paginate_by = 50
+    template_name = 'consulta_indicadores.html'
+
+    def get_queryset(self):
+        q = self.request.GET.get('q', '')
+        lookup = (Q(nombre__icontains = q))
+        solicitudes = self.model._default_manager.filter(lookup)
+        self.queryset = solicitudes
+        return solicitudes
+    
+    def get_context_data(self):
+        context = {
+            'q': self.request.GET.get('q', ''), 
+            'total': self.queryset.count(),
+            'form': IndicadorForm(label_suffix='', initial={'mes': datetime.datetime.now().month, 'anio': datetime.datetime.now().year})
+        }
+        return super().get_context_data(**context)
+
+class IndicadorCrear(LoginRequiredMixin, RedirectView):
+    http_method_names = ['post']
+    url = reverse_lazy('cons_indicadores')
+
+    def post(self, request, *args, **kwargs):
+        form = IndicadorForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Se agregó un indicador exitosamente')
+        else:
+            messages.error(request, 'Error al guardar')
+        return self.get(request, *args, **kwargs)

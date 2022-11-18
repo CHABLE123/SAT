@@ -18,7 +18,7 @@
     href="{% static 'lib/datatables-1.10.20/plugins/buttons-1.6.1/css/buttons.dataTables.min.css' %}" />
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
   <link rel="icon" href="{% static 'img/favicon.png' %}">
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
   {% block head %}
 
   {% endblock %}
@@ -54,7 +54,7 @@
           
         </div>
       </div> -->
-      <br><br>
+        <br><br>
         <div class="row row-cols-1 row-cols-md-3 g-4 text-center">
           {% if perms.folio.create_users and perms.folio.list_users %}
           <div class="col" style="margin-bottom: 20px;">
@@ -101,6 +101,19 @@
               <div class="card-footer">
                 <a href="{% url 'reg_reduccion' %}" class="btn btn-light">Solicitar</a>
                 <a href="{% url 'cons_reduccion' %}" class="btn btn-light">Consultar</a>
+              </div>
+            </div>
+          </div>
+          <div class="col" style="margin-bottom: 20px;">
+            <div class="card h-100" style="box-shadow: 0px 3px 8px gray;">
+              <br>
+              <i class="fas fa-file fa-4x" style="color: #0069c0;"></i>
+              <div class="card-body">
+                <br>
+                <h4 class="card-text"><b>Indicadores</b></h4>
+              </div>
+              <div class="card-footer">
+                <a href="{% url 'cons_indicadores' %}" class="btn btn-light">Consultar</a>
               </div>
             </div>
           </div>
@@ -165,10 +178,10 @@
         searching: false,
         order: [[0, 'desc']],
         {% if perms.folio.option %}
-          dom: 'Bfrtip',
-          buttons: [],
-            info: false
-        {% endif %}
+      dom: 'Bfrtip',
+        buttons: [],
+          info: false
+      {% endif %}
       });
     </script>
 </body>
