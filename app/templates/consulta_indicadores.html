@@ -28,8 +28,10 @@
                 <input name="q" value="{{q}}" class="form-control form-control-lg" type="text"
                     placeholder="Nombre del indicador">
                 <input type="hidden" name="page" value="{{page}}">
+                {% if perms.folio.option %}
                 <button type="button" class="btn btn-primary mt-2" data-toggle="modal"
                     data-target="#exampleModal">Agregar indicador</button>
+                {% endif %}
                 <button type="submit" class="btn btn-secondary mt-2">Buscar</button>
             </form>
             <p>Total de indicadores: &nbsp;<b>{{total}}</b></p>
@@ -39,8 +41,7 @@
                         <th scope="col">Nombre del indicador</th>
                         <th scope="col">Mes</th>
                         <th scope="col">Año</th>
-                        <th scope="col">Porcentaje</th>
-                        <th scope="col">Cantidad</th>
+                        <th scope="col">Resultados</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -49,8 +50,15 @@
                         <td>{{s.nombre}}</td>
                         <td>{{s.get_mes_display}}</td>
                         <td>{{s.get_anio_display}}</td>
-                        <td>{{s.porcentaje}} %</td>
-                        <td>${{s.cantidad|intcomma}}</td>
+                        <td>
+                            {% if s.porcentaje %}
+                            {{s.porcentaje}} %
+                            {% elif s.cantidad %}
+                            ${{s.cantidad|intcomma}}
+                            {% else %}
+                            No especificado
+                            {% endif %}
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -82,6 +90,15 @@
                             <br>
                         </div>
                         <div class="col-md-12">
+                            <label for="id_tipo">Seleccione el tipo de resultado</label>
+                            <select class="form-control" id="id_tipo">
+                                <option value="">--------</option>
+                                <option value="percent">Porcentaje</option>
+                                <option value="amount">Cantidad</option>
+                            </select>
+                            <br>
+                        </div>
+                        <div class="col-md-12">
                             {{form.porcentaje.label_tag}}
                             {{form.porcentaje}}
                             <br>
@@ -109,4 +126,27 @@
         </div>
     </div>
 </form>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let percent = document.querySelector('#id_porcentaje');
+        let amount = document.querySelector('#id_cantidad');
+        let result = document.querySelector('#id_tipo');
+        percent.parentNode.style.display = 'none';
+        amount.parentNode.style.display = 'none';
+        result.addEventListener('change', function () {
+            if (this.value == 'percent') {
+                percent.parentNode.style.display = 'block';
+                amount.parentNode.style.display = 'none';
+            }
+            else if (this.value == 'amount') {
+                percent.parentNode.style.display = 'none';
+                amount.parentNode.style.display = 'block';
+            }
+            else {
+                percent.parentNode.style.display = 'none';
+                amount.parentNode.style.display = 'none';
+            }
+        })
+    })
+</script>
 {% endblock %}
