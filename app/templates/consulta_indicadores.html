@@ -61,8 +61,10 @@
                             {% endif %}
                         </td>
                         <td>
+                            {% if perms.folio.option %}
                             <a target="_blank" href="{% url 'mod_indicadores' s.id %}"><i
                                 class="fas fa-edit fa-1x"></i></a>
+                            {% endif %}
                         </td>
                     </tr>
                     {% endfor %}
