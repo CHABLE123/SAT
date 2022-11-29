@@ -143,7 +143,7 @@ class Indicadores(models.Model):
 	nombre = models.CharField('Nombre de indicador', max_length=500)
 	mes = models.CharField('Mes', choices=meses, max_length=20)
 	anio = models.CharField('Año', choices=anios, max_length=5)
-	porcentaje = models.DecimalField(max_digits=4, decimal_places=1, null=True, blank=True)
+	porcentaje = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
 	cantidad = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
 	fecha_reg = models.DateTimeField(auto_now_add=True, null=True)
 	fecha_mod = models.DateTimeField(auto_now=True, null=True)
