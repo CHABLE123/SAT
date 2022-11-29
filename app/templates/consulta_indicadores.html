@@ -42,7 +42,9 @@
                         <th scope="col">Mes</th>
                         <th scope="col">Año</th>
                         <th scope="col">Resultados</th>
-                        <th scope="col"></th>
+                        {% if perms.folio.option %}
+                        <th scope="col">Opciones</th>
+                        {% endif %}
                     </tr>
                 </thead>
                 <tbody>
@@ -60,12 +62,12 @@
                             No especificado
                             {% endif %}
                         </td>
-                        <td>
-                            {% if perms.folio.option %}
+                        {% if perms.folio.option %}
+                        <td>                    
                             <a target="_blank" href="{% url 'mod_indicadores' s.id %}"><i
                                 class="fas fa-edit fa-1x"></i></a>
-                            {% endif %}
                         </td>
+                        {% endif %}
                     </tr>
                     {% endfor %}
                 </tbody>
