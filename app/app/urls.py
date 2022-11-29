@@ -39,6 +39,7 @@ urlpatterns = [
     path('modificar/usuario/<id>/', views.mod_usuario, name='mod_usuario'),
     path('eliminar/usuario/<id>/', views.eli_usuario, name='eli_usuario'),
     path('modificar/folio/<id>/', views.mod_folio, name='mod_folio'),
+    path('modificar/indicador/<id>/', views.mod_indicadores, name='mod_indicadores'),
     path('cambiar/contraseña/', views.Cpassword, name='Cpassword'),
     path('grupo/', views.grupo, name='grupo'),
 ]

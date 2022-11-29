@@ -309,3 +309,28 @@ class IndicadorCrear(LoginRequiredMixin, RedirectView):
         else:
             messages.error(request, 'Error al guardar')
         return self.get(request, *args, **kwargs)
+
+
+@login_required(login_url=settings.LOGOUT_REDIRECT_URL) 
+def mod_indicadores(request, id):
+    solicitudes = get_object_or_404(Indicadores, id=id)
+    data2 = {
+        'form': IndicadorForm (instance=solicitudes)
+    }
+    if request.method=='POST':
+        form = IndicadorForm(request.POST, instance=solicitudes)
+        if form.is_valid():
+            f=form.save(commit=False)
+            if 'cantidad' in form.changed_data:
+                f.porcentaje = None
+            elif 'porcentaje' in form.changed_data:
+                f.cantidad = None
+            f.save()
+            print(f.porcentaje, f.cantidad)
+            print('Registro guardado')
+            messages.success(request,'El Registro ha sido modificado')
+            return redirect('cons_indicadores')
+        else:
+            print(form.errors)
+            print('Registro no guardado')
+    return render(request, 'modificar_indicador.html', data2)

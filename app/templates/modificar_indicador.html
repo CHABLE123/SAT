@@ -1,0 +1,90 @@
+{% extends 'home.html' %}
+
+{% block content %}
+{% load static %}
+
+<div class="container">
+    <br>
+    <div class="card card-default">
+        <div class="card-header encabezado">
+            <h3 class="card-title">
+                <i class="fas fa-plus"></i>
+                Modificar indicador 
+            </h3>
+
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            <form class="row g-3" method="POST">
+                {% csrf_token %}
+                <div class="col-md-12">
+                    {{form.nombre.label_tag}}
+                    {{form.nombre}}
+                    <br>
+                </div>
+                <div class="col-md-12">
+                    <label for="id_tipo">Seleccione el tipo de resultado</label>
+                    <select class="form-control" id="id_tipo">
+                        <option value="">--------</option>
+                        <option value="percent">Porcentaje</option>
+                        <option value="amount">Cantidad</option>
+                    </select>
+                    <br>
+                </div>
+                <div class="col-md-12">
+                    {{form.porcentaje.label_tag}}
+                    {{form.porcentaje}}
+                    <br>
+                </div>
+                <div class="col-md-12">
+                    {{form.cantidad.label_tag}}
+                    {{form.cantidad}}
+                    <br>
+                </div>
+                <div class="col-md-6">
+                    {{form.mes.label_tag}}
+                    {{form.mes}}
+                </div>
+                <div class="col-md-6">
+                    {{form.anio.label_tag}}
+                    {{form.anio}}
+                </div>
+                <div class="col-12">
+                    <br>
+                    <button class="btn btn-primary" type="submit">Modificar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let percent = document.querySelector('#id_porcentaje');
+        let amount = document.querySelector('#id_cantidad');
+        let result = document.querySelector('#id_tipo');
+        const e = new Event("change");
+        percent.parentNode.style.display = 'none';
+        amount.parentNode.style.display = 'none';
+        result.addEventListener('change', function () {
+            if (this.value == 'percent') {
+                percent.parentNode.style.display = 'block';
+                amount.parentNode.style.display = 'none';
+            }
+            else if (this.value == 'amount') {
+                percent.parentNode.style.display = 'none';
+                amount.parentNode.style.display = 'block';
+            }
+            else {
+                percent.parentNode.style.display = 'none';
+                amount.parentNode.style.display = 'none';
+            }
+        })
+        {% if form.porcentaje.value %}
+        result.value = 'percent';
+        {% elif form.cantidad.value %}
+        result.value = 'amount';
+        {% endif %}
+        result.dispatchEvent(e);
+    })
+</script>
+{% endblock %}

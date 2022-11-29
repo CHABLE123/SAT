@@ -42,6 +42,7 @@
                         <th scope="col">Mes</th>
                         <th scope="col">Año</th>
                         <th scope="col">Resultados</th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -58,6 +59,10 @@
                             {% else %}
                             No especificado
                             {% endif %}
+                        </td>
+                        <td>
+                            <a target="_blank" href="{% url 'mod_indicadores' s.id %}"><i
+                                class="fas fa-edit fa-1x"></i></a>
                         </td>
                     </tr>
                     {% endfor %}
