@@ -88,7 +88,7 @@
                     <tbody>
                         {% for s in object_list %}
                         <tr>
-                            <td>{% if perms.folio.option %}{% if s.estatus == 'pendiente' %}<input class="form-check-input mt-2" name="folio" type="checkbox" value="{{s.folio}}" id="{{s.folio}}">{% endif %}{% endif %}<label class="ml-3" for="{{s.folio}}">{{ s.folio }}</label></td>
+                            <td>{% if perms.folio.option %}{% if s.estatus == 'pendiente' %}<input class="form-check-input mt-2" name="folio" type="checkbox" value="{{s.id}}" id="{{s.id}}">{% endif %}{% endif %}<label class="ml-3" for="{{s.id}}">{{ s.folio }}</label></td>
                             <td>{{s.usuario.get_full_name|default:'No especificado'}}</td>
                             <td>{{ s.nombre }}</td>
                             <td>{{ s.dependencia }}</td>

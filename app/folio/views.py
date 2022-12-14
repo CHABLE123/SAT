@@ -46,10 +46,11 @@ def reg_folio(request):
     if request.method=='POST':
         form = Solicitud_form(request.POST)
         if form.is_valid():
-            folio = GetFolio(solicitud.objects.all())
+            folio = GetFolio(solicitud.objects.filter(periodo='p2'))
             f=form.save(commit=False)
             f.folio = folio.generate()
             f.usuario = request.user
+            f.periodo = 'p2'
             f.save()
             print('Registro guardado')
             messages.success(request,'Tu numero de folio es '+f.folio)
@@ -92,14 +93,15 @@ def reg_reduccion(request):
         if form.is_valid():
             f=form.save(commit=False)
             if f.tipo == 't1':
-                folio = GetFolio(Reducciones.objects.filter(tipo='t1'))
+                folio = GetFolio(Reducciones.objects.filter(tipo='t1', periodo='p2'))
                 folio = folio.generate()
                 f.folio = 'RED74{}/{}'.format(folio, datetime.date.today().year)
             else:
-                folio = GetFolio(Reducciones.objects.filter(tipo='t2'))
+                folio = GetFolio(Reducciones.objects.filter(tipo='t2', periodo='p2'))
                 folio = folio.generate()
                 f.folio = 'RED/VA/ART41Y74/{}/{}'.format(folio, datetime.date.today().strftime('%y'))
             f.ejecutivo = request.user
+            f.periodo = 'p2'
             f.save()
             messages.success(request,'Tu numero de folio es '+f.folio)
             return redirect('reg_reduccion')
@@ -153,7 +155,7 @@ class ReduccionesList(LoginRequiredMixin, ListView):
             d = make_aware(datetime.datetime.fromisoformat(d)).date()
             solicitudes = solicitudes.filter(fecha_reg__date=d)
         except:
-            pass
+            solicitudes = solicitudes.filter(periodo='p2')
         self.queryset = solicitudes
         return solicitudes
     
@@ -181,7 +183,7 @@ class Solicitudes(LoginRequiredMixin, ListView):
             d = make_aware(datetime.datetime.fromisoformat(d)).date()
             solicitudes = solicitudes.filter(fecha_reg__date=d)
         except:
-            pass
+            solicitudes = solicitudes.filter(periodo='p2')
         self.queryset = solicitudes
         return solicitudes
     
@@ -203,7 +205,7 @@ class CambiarEstatus(LoginRequiredMixin, RedirectView):
         counter = 0
         for f in folios:
             try:
-                folio = solicitud.objects.get(folio=f)
+                folio = solicitud.objects.get(id__exact=f)
                 folio.estatus = estatus
                 folio.save()
                 counter = counter+1 
