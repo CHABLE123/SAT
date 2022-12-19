@@ -1,4 +1,5 @@
 import datetime
+from datetime import timedelta
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from folio.forms import Registro_form2, Registro_form, Solicitud_form, fResetPassword, Creargrupo, ReduccionForm, IndicadorForm
@@ -43,9 +44,14 @@ def home(request):
 
 @login_required(login_url=settings.LOGOUT_REDIRECT_URL)
 def reg_folio(request):
+    days_ago = datetime.datetime.today() - timedelta(days=2)
+    pending = request.user.solicitudes.filter(estatus='pendiente').exclude(fecha_reg__date__range=[days_ago, datetime.datetime.today().date()]).order_by('fecha_reg')
+    block_create = False
+    if pending.exists():
+        block_create = True
     if request.method=='POST':
         form = Solicitud_form(request.POST)
-        if form.is_valid():
+        if form.is_valid() and not block_create:
             folio = GetFolio(solicitud.objects.filter(periodo='p2'))
             f=form.save(commit=False)
             f.folio = folio.generate()
@@ -60,7 +66,9 @@ def reg_folio(request):
     else:
         form = Solicitud_form()
     return render(request, 'solicitud_folio.html', {
-        'form': form  
+        'form': form,
+        'block_create': block_create,
+        'pending': pending
     })
 
 @login_required(login_url=settings.LOGOUT_REDIRECT_URL)
@@ -171,6 +179,7 @@ class Solicitudes(LoginRequiredMixin, ListView):
     def get_queryset(self):
         q = self.request.GET.get('q', '')
         d = self.request.GET.get('d', '')
+        p = self.request.GET.get('p', '')
         type_ = self.request.GET.get('t', '')
         lookup = (Q(folio__icontains = q))
         if self.request.user.has_perm('folio.option'):
@@ -183,12 +192,16 @@ class Solicitudes(LoginRequiredMixin, ListView):
             d = make_aware(datetime.datetime.fromisoformat(d)).date()
             solicitudes = solicitudes.filter(fecha_reg__date=d)
         except:
+            pass
+        if p in ['p1', 'p2']:
+            solicitudes = solicitudes.filter(periodo=p)
+        else:
             solicitudes = solicitudes.filter(periodo='p2')
         self.queryset = solicitudes
         return solicitudes
     
     def get_context_data(self):
-        context = {'q': self.request.GET.get('q', ''), 'd': self.request.GET.get('d', ''), 't': self.request.GET.get('t', 'todos'), 'total': self.queryset.count()}
+        context = {'q': self.request.GET.get('q', ''), 'p': self.request.GET.get('p', 'p2'), 'd': self.request.GET.get('d', ''), 't': self.request.GET.get('t', 'todos'), 'total': self.queryset.count()}
         return super().get_context_data(**context)
 
 class CambiarEstatus(LoginRequiredMixin, RedirectView):

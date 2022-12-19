@@ -1,10 +1,10 @@
 {% extends 'home.html' %}
 {% block head %}
 <script>
-    document.addEventListener('DOMContentLoaded', function(){
+    document.addEventListener('DOMContentLoaded', function () {
         let form = document.querySelector('form');
         let button = document.querySelector('#send');
-        form.addEventListener('submit', function(){
+        form.addEventListener('submit', function () {
             button.disabled = true;
         })
     })
@@ -14,6 +14,16 @@
 {% load static %}
 
 <div class="container">
+    {% if block_create %}
+    <div class="alert alert-warning" role="alert">
+        <p><b>No puede solicitar más folios hasta liberar las siguientes solicitudes pendientes:</b></p>
+        <ul>
+            {% for p in pending %}
+            <li><b><a target="_blank" style="color: #1f2d3d;" href="{% url 'cons_folio' %}?q={{p.folio}}&p={{p.periodo}}">{{p.folio}}</a></b> (periodo {{p.get_periodo_display}}) creado el {{p.fecha_reg}}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
     <br>
     <div class="card card-default">
         <div class="card-header encabezado">
@@ -45,10 +55,13 @@
                 </div>
                 <div class="col-12">
                     <br>
+                    {% if not block_create %}
                     <button class="btn btn-primary" id="send" type="submit">Registrar</button>
+                    {% endif %}
                 </div>
             </form>
         </div>
     </div>
+    <br><br><br>
 </div>
 {% endblock %}
